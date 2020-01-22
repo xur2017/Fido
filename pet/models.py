@@ -16,12 +16,12 @@ class User(models.Model):
     phone_number = models.CharField(max_length=40, blank=True)
     username = models.CharField(max_length=40, blank=True)
     password = models.CharField(max_length=40, blank=True)
-    verification = models.CharField(max_length=40, blank=True)
     street_number = models.CharField(max_length=40, blank=True)
     street_name = models.CharField(max_length=40, blank=True)
     city = models.CharField(max_length=40, blank=True)
     state = models.CharField(max_length=40, blank=True)
     zip = models.CharField(max_length=40, blank=True)
+    document = models.FileField(upload_to='documents/', blank=True)
 
     def __str__(self):
         return self.email_address
@@ -56,7 +56,7 @@ class Picture(models.Model):
     pet = models.ForeignKey('Pet', on_delete=models.CASCADE)
 
     description = models.CharField(max_length=200)
-    photo = models.ImageField(upload_to='photos/')
+    photo = models.ImageField(upload_to='photos/', blank=True)
     
     def __str__(self):
         return self.description
