@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.urls import reverse
 # Create your models here.
 
 class UserType(models.Model):
@@ -69,7 +69,7 @@ class Pet(models.Model):
     
     users = models.ManyToManyField(User)
     
-    name = models.CharField(max_length=40, blank=True)
+    name = models.CharField(max_length=40)
     age = models.FloatField(null=True, blank=True) 
     sex = models.CharField(max_length=40, blank=True)
     status = models.CharField(max_length=40, blank=True)
@@ -78,6 +78,8 @@ class Pet(models.Model):
     def __str__(self):
         return self.description
 
+    def get_absolute_url(self):
+        return "/pet/%i/" % self.id
     
 
     
