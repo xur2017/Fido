@@ -5,7 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    You have successfully created a pet named: {{ pet.name }}
+    You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} )
+<br> Pet Details:
+<br> Age: {{ pet.age}}
+<br> Breed: {{ pet.get_breed_display }}
+<br>
 
 </body>
 </html>

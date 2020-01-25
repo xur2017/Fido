@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class UserType(models.Model):
@@ -8,14 +9,24 @@ class UserType(models.Model):
     def __str__(self):
         return self.description
     
-class User(models.Model):
-    user_type = models.ForeignKey('UserType', on_delete=models.CASCADE)
-    
-    email_address = models.CharField(max_length=40, blank=True)
-    name = models.CharField(max_length=40, blank=True)
+class CustomUser(AbstractUser):
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    #user_type = models.ForeignKey('UserType', on_delete=models.CASCADE)
+    USER_TYPE_CHOICES = [
+        ('S', 'Shelter'),
+        ('P', 'Pet Parent')
+    ]
+    user_type = models.CharField(
+        max_length=2,
+        choices=USER_TYPE_CHOICES,
+        default='S'
+    )
+    #email_address = models.CharField(max_length=40, blank=True)
+    #name = models.CharField(max_length=40, blank=True)
     phone_number = models.CharField(max_length=40, blank=True)
-    username = models.CharField(max_length=40, blank=True)
-    password = models.CharField(max_length=40, blank=True)
+    #username = models.CharField(max_length=40, blank=True)
+    #password = models.CharField(max_length=40, blank=True)
     street_number = models.CharField(max_length=40, blank=True)
     street_name = models.CharField(max_length=40, blank=True)
     city = models.CharField(max_length=40, blank=True)
@@ -24,7 +35,10 @@ class User(models.Model):
     document = models.FileField(upload_to='documents/', blank=True)
 
     def __str__(self):
-        return self.email_address
+        return self.username
+
+    def get_absolute_url(self):
+        return "/user/%i/" % self.id
     
 class PetType(models.Model):
     description = models.CharField(max_length=200)
@@ -62,6 +76,8 @@ class Picture(models.Model):
         return self.description
         
 class Pet(models.Model):
+    #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
+
     #Choices for Pet Types:
     #pet_type = models.ForeignKey('PetType', on_delete=models.CASCADE)
     DOG = 'D'
@@ -133,7 +149,7 @@ class Pet(models.Model):
     )
 
 
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(CustomUser)
     
     name = models.CharField(max_length=40)
     age = models.FloatField(null=True, blank=True) 
