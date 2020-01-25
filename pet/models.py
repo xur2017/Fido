@@ -62,11 +62,77 @@ class Picture(models.Model):
         return self.description
         
 class Pet(models.Model):
-    pet_type = models.ForeignKey('PetType', on_delete=models.CASCADE)
-    breed = models.ForeignKey('Breed', on_delete=models.CASCADE)
-    disposition = models.ForeignKey('Disposition', on_delete=models.CASCADE)
-    availability = models.ForeignKey('Availability', on_delete=models.CASCADE)
-    
+    #Choices for Pet Types:
+    #pet_type = models.ForeignKey('PetType', on_delete=models.CASCADE)
+    DOG = 'D'
+    CAT = 'C'
+    OTHER = 'O'
+
+    PET_TYPE_CHOICES = [
+        (DOG, 'Dog'),
+        (CAT, 'Cat'),
+        (OTHER, 'Other')
+    ]
+
+    pet_type = models.CharField(
+        max_length=2,
+        choices = PET_TYPE_CHOICES,
+        default= DOG
+    )
+
+    #Choices for Breeds
+    #breed = models.ForeignKey('Breed', on_delete=models.CASCADE)
+    BREED_CHOICES = [
+        ('B', 'Beagle'),
+        ('FB', 'French Bulldog'),
+        ('GR', 'Golden Retriever'),
+        ('GS', 'German Shepard'),
+        ('L', 'Laborador')
+
+    ]
+
+    breed = models.CharField(
+        max_length=2,
+        choices=BREED_CHOICES,
+        default='B'
+    )
+
+    #Choices for Disposition
+    #disposition = models.ForeignKey('Disposition', on_delete=models.CASCADE)
+    DISPOSITION_CHOICES = [
+        ('C', 'Good with Children'),
+        ('OA', 'Good with Other Animals'),
+        ('L', 'Animal must be leashed at all times'),
+        ('NA', 'Not Applicable')
+    ]
+
+    disposition = models.CharField(
+        max_length=2,
+        choices=DISPOSITION_CHOICES,
+        default="NA"
+    )
+
+    #Choices for Availability
+    #availability = models.ForeignKey('Availability', on_delete=models.CASCADE)
+
+    AVAILABLE = 'A'
+    NOT_AVAILABLE = 'NA'
+    PENDING = 'P'
+    ADOPTED = 'AD'
+
+    AVAILABILITY_CHOICES = [
+        (AVAILABLE, 'Available'),
+        (NOT_AVAILABLE, 'Not Available'),
+        (PENDING, 'Pending'),
+        (ADOPTED, 'Adopted')
+    ]
+    availability = models.CharField(
+        max_length=2,
+        choices = AVAILABILITY_CHOICES,
+        default = AVAILABLE
+    )
+
+
     users = models.ManyToManyField(User)
     
     name = models.CharField(max_length=40)
@@ -76,7 +142,7 @@ class Pet(models.Model):
     description = models.CharField(max_length=200, blank=True)
     
     def __str__(self):
-        return self.description
+        return self.name
 
     def get_absolute_url(self):
         return "/pet/%i/" % self.id
