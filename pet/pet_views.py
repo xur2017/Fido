@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import Pet
 from django.views.generic.edit import CreateView
 from django.views import generic
 from rest_framework import generics
+from django.conf import settings
+
 
 # Create your views here.
 def index(request):
@@ -24,8 +26,7 @@ class PetDetailView(generic.DetailView):
 class PetCreate(CreateView):
     model = Pet
     fields = ['name', 'age', 'sex', 'pet_type', 'breed',
-              'availability', 'disposition', 'status', 'description',
-              'picture']
+              'availability', 'disposition', 'status', 'description']
 
     #if form is valid, add shelter ID to pet
     def form_valid(self, form):
@@ -36,8 +37,15 @@ class PetCreate(CreateView):
 
 def createPet(request):
     test = request
-    #TO DO: Add check for is authenticated ANDALSO to make sure is a shelter
     if request.content_type == 'application/json':
         return PetCreate.as_view()(request)
     else:
-        return PetCreate.as_view()(request)
+        if request.user.is_authenticated:
+            if request.user.user_type == 'S':
+                return PetCreate.as_view()(request)
+            else:
+                output = 'You must be a Shelter user to create a pet!<br>'
+                return HttpResponse(output)
+        else:
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
+

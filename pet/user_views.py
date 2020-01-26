@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView
 from django.views import generic
 from rest_framework import generics
 from django.forms import ModelForm
+from django.contrib import messages
 
 #############################################################################
 # Create User Functions:
@@ -44,10 +45,11 @@ def createUser(request):
                 user.city = form.cleaned_data['city']
                 user.state = form.cleaned_data['state']
                 user.zip = form.cleaned_data['zip']
+                user.user_type = form.cleaned_data['user_type']
                 user.save()
                 return HttpResponseRedirect('%s' % user.id)
             else:
-                raise ValueError()
+                return render(request, 'user/user_form.html', {'form': form})
 
 
 #view user, this will send all user info for /user/<id> as context
@@ -56,4 +58,9 @@ class UserDetailView(generic.DetailView):
     template_name = 'user/userdetail.html'
 
 def profile(request):
-    return render(request, 'user/profile.html')
+    if request.user.user_type == 'S':
+        return render(request, 'user/profileShelter.html')
+    elif request.user.user_type == 'P':
+        return render(request, 'user/profileParent.html')
+    else:
+        return HttpResponseRedirect(reverse('login'))
