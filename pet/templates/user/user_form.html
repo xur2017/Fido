@@ -5,14 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-    Test Create Pet Page
+    Test Create User Page
 
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post">
         <!-- TO CUSTOMIZE LATER: https://docs.djangoproject.com/en/3.0/topics/forms/ -->
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Save" />
     </form>
-
 </body>
 </html>

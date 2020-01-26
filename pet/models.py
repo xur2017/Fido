@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class UserType(models.Model):
@@ -8,14 +9,18 @@ class UserType(models.Model):
     def __str__(self):
         return self.description
     
-class User(models.Model):
-    user_type = models.ForeignKey('UserType', on_delete=models.CASCADE)
-    
-    email_address = models.CharField(max_length=40, blank=True)
-    name = models.CharField(max_length=40, blank=True)
+class CustomUser(AbstractUser):
+    #Username, password, first name, last name, email will all be created from User, do not need to be defined here
+    USER_TYPE_CHOICES = [
+        ('S', 'Shelter'),
+        ('P', 'Pet Parent')
+    ]
+    user_type = models.CharField(
+        max_length=2,
+        choices=USER_TYPE_CHOICES,
+        default='S'
+    )
     phone_number = models.CharField(max_length=40, blank=True)
-    username = models.CharField(max_length=40, blank=True)
-    password = models.CharField(max_length=40, blank=True)
     street_number = models.CharField(max_length=40, blank=True)
     street_name = models.CharField(max_length=40, blank=True)
     city = models.CharField(max_length=40, blank=True)
@@ -24,7 +29,10 @@ class User(models.Model):
     document = models.FileField(upload_to='documents/', blank=True)
 
     def __str__(self):
-        return self.email_address
+        return self.username
+
+    def get_absolute_url(self):
+        return "/user/%i/" % self.id
     
 class PetType(models.Model):
     description = models.CharField(max_length=200)
@@ -53,7 +61,7 @@ class Availability(models.Model):
         return self.description
 
 class Picture(models.Model):
-    pet = models.ForeignKey('Pet', on_delete=models.CASCADE)
+    #pet = models.ForeignKey('Pet', on_delete=models.CASCADE)
 
     description = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='photos/', blank=True)
@@ -62,8 +70,9 @@ class Picture(models.Model):
         return self.description
         
 class Pet(models.Model):
+    #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
+
     #Choices for Pet Types:
-    #pet_type = models.ForeignKey('PetType', on_delete=models.CASCADE)
     DOG = 'D'
     CAT = 'C'
     OTHER = 'O'
@@ -81,7 +90,6 @@ class Pet(models.Model):
     )
 
     #Choices for Breeds
-    #breed = models.ForeignKey('Breed', on_delete=models.CASCADE)
     BREED_CHOICES = [
         ('B', 'Beagle'),
         ('FB', 'French Bulldog'),
@@ -98,7 +106,6 @@ class Pet(models.Model):
     )
 
     #Choices for Disposition
-    #disposition = models.ForeignKey('Disposition', on_delete=models.CASCADE)
     DISPOSITION_CHOICES = [
         ('C', 'Good with Children'),
         ('OA', 'Good with Other Animals'),
@@ -113,8 +120,6 @@ class Pet(models.Model):
     )
 
     #Choices for Availability
-    #availability = models.ForeignKey('Availability', on_delete=models.CASCADE)
-
     AVAILABLE = 'A'
     NOT_AVAILABLE = 'NA'
     PENDING = 'P'
@@ -133,14 +138,34 @@ class Pet(models.Model):
     )
 
 
-    users = models.ManyToManyField(User)
-    
+    users = models.ManyToManyField(CustomUser)
+
+    #Required name and age
     name = models.CharField(max_length=40)
-    age = models.FloatField(null=True, blank=True) 
-    sex = models.CharField(max_length=40, blank=True)
+    age = models.FloatField(null=True, blank=True)
+
+    #Choices for Sex
+    MALE = 'M'
+    FEMALE = 'F'
+    OTHER = 'O'
+
+    SEX_CHOICES = [
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (OTHER, 'Other/Unknown')
+    ]
+
+    sex = models.CharField(
+        max_length=2,
+        choices=SEX_CHOICES,
+        default=MALE
+    )
+
+    #Optional status and description
     status = models.CharField(max_length=40, blank=True)
     description = models.CharField(max_length=200, blank=True)
-    
+    picture = models.ImageField(upload_to='photos/', blank=True)
+
     def __str__(self):
         return self.name
 
