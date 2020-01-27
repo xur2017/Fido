@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'pet',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -123,5 +124,7 @@ STATIC_URL = '/static/'
 
 
 
+# some user input settings # 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

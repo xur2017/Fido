@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    Test Create Pet Page
-
-    <form action="" method="post" enctype="multipart/form-data">
-        <!-- TO CUSTOMIZE LATER: https://docs.djangoproject.com/en/3.0/topics/forms/ -->
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save" />
-    </form>
-
-</body>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  </head>
+  <body>
+	<div class="row">
+      <div class="col"></div>
+		<div class="col">
+		  {% load crispy_forms_tags %}
+          <h1>Create Pet Page</h1>
+          <form  method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button  type="submit"  class="btn btn-primary">Login</button>
+          </form>
+		</div>
+      <div class="col"></div>
+	</div>
+  </body>
 </html>

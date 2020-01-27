@@ -1,5 +1,5 @@
-Django==3.0.2
-Pillow==7.0.0
+django
+pillow
 djangorestframework
 markdown
 django-filter

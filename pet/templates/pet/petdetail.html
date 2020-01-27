@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  {% include "../components/style.html"%}
 </head>
 <body>
-    You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} )
-<br> Pet Details:
-<br> Age: {{ pet.age}}
-<br> Breed: {{ pet.get_breed_display }}
-
+  {% include "../components/nav-bar.html"%}
+  You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} )
+  <br> Pet Details:
+  <br> Age: {{ pet.age}}
+  <br> Breed: {{ pet.get_breed_display }}
 </body>
 </html>
