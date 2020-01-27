@@ -7,18 +7,18 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
   </head>
   <body>
-	<div class="row">
+    <div class="row">
       <div class="col"></div>
-		<div class="col">
-		  {% load crispy_forms_tags %}
+        <div class="col">
+          {% load crispy_forms_tags %}
           <h1>Create Pet Page</h1>
           <form  method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <button  type="submit"  class="btn btn-primary">Login</button>
           </form>
-		</div>
+        </div>
       <div class="col"></div>
-	</div>
+    </div>
   </body>
 </html>

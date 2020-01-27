@@ -2,8 +2,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 </head>
 <body>
 
@@ -21,26 +22,24 @@
       <p>Please login to see this page.</p>
     {% endif %}
   {% endif %}
-
+  
+  <div class="row">
+  <div class="col"></div>
+	<div class="col">
+  {% load crispy_forms_tags %}
+  <h1>Login Page</h1>
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="login" />
+    {{ form|crispy }}
+    <input type="submit" value="login" class="btn btn-primary" />
     <input type="hidden" name="next" value="{{ next }}" />
   </form>
 
   {# Assumes you setup the password_reset view in your URLconf #}
   <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-
+  </div>
+  <div class="col"></div>
+	</div>
 {% endblock %}
 </body>
 </html>
