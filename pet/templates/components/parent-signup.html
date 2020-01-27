@@ -1,0 +1,72 @@
+<!----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  </head>
+
+  <body>
+------------------------------------------------------------------------->
+<div class="container-fluid p-5" align="center">
+	<h3>Sign up</h3>
+	<form action="/action_page.php" class="needs-validation" novalidate>
+		<div class="form-group" >
+			<div class="form-row">
+				<input type="text" class="form-control col" placeholder="First Name*" name="firstname" required>
+				<input type="text" class="form-control col" placeholder="Last Name*" name="lastname" required>
+			</div>
+			<input type="text" class="form-control" placeholder="Username" id="username" name="username" required>
+			<input type="email" class="form-control" placeholder="Email address*" id="email" name="email" required>
+			<input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone">
+			<input type="file" class="form-control-file">
+		</div>
+		<div class="form-group">
+			<label for="address">Address:</label>
+			<div class="row">
+				<input type="text" class="form-control col" placeholder="Street number*" name="street" required>
+				<input type="text" class="form-control col" placeholder="Street name*" name="street" required>
+			</div>
+			<input type="text" class="form-control" placeholder="Apartment/Suite" name="suite">
+			<input type="text" class="form-control" placeholder="City*" name="city" required>
+			<input type="text" class="form-control" placeholder="Country*" name="country" required>
+			<input type="text" class="form-control" placeholder="Zipcode" name="zip">
+		</div>
+		<label for="password">Password:</label>
+		<div class="form-group row">
+			<input type="password" class="form-control col" placeholder="Enter password*" id="password" name="password" required>
+			<input type="re-password" class="form-control col" placeholder="Re-enter password*" id="re-password" name="re-password" required>
+		</div>
+		<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+	</form>
+
+	<script>
+		//https://www.w3schools.com/bootstrap4/bootstrap_forms.asp
+		// Disable form submissions if there are invalid fields 
+		//Note: Have not accounted for password match yet
+		(function() {
+			'use strict';
+			window.addEventListener('load', function() {
+				// Get the forms we want to add validation styles to
+				var forms = document.getElementsByClassName('needs-validation');
+				// Loop over them and prevent submission
+				var validation = Array.prototype.filter.call(forms, function(form) {
+					form.addEventListener('submit', function(event) {
+						if (form.checkValidity() === false) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+						form.classList.add('was-validated');
+					}, false);
+				});
+			}, false);
+		})();
+	</script>
+</div>
+<!----------------------------------------------------------------------------------------------------------------->
+  </body>
+</html>

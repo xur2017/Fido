@@ -1,0 +1,45 @@
+<div class="container-fluid p-5" align="center">
+	<div>
+		<h3>Log in</h3>
+		<a href = "#" type="button" class="btn btn-danger btn-lg">Google</a>
+		<a href = "##" type="button" class="btn btn-primary btn-lg">Facebook</a>
+	</div>
+	<hr style="width:50%;">
+	<div style="max-width:80%;">
+		<h3>or</h3>
+		<form action="/action_page.php" class="needs-validation" novalidate>
+			<div class="form-group">
+			<label for="email">Email address:</label>
+			<input type="email" class="form-control" placeholder="Enter email" id="email" name="email" required>
+			</div>
+			<div class="form-group">
+			<label for="password">Password:</label>
+			<input type="password" class="form-control" placeholder="Enter password" id="password" name="password" required>
+			</div>
+			<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+		</form>
+	</div>
+
+	<script>
+		//https://www.w3schools.com/bootstrap4/bootstrap_forms.asp
+		// Disable form submissions if there are invalid fields 
+		(function() {
+			'use strict';
+			window.addEventListener('load', function() {
+				// Get the forms we want to add validation styles to
+				var forms = document.getElementsByClassName('needs-validation');
+				// Loop over them and prevent submission
+				var validation = Array.prototype.filter.call(forms, function(form) {
+					form.addEventListener('submit', function(event) {
+						if (form.checkValidity() === false) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+						form.classList.add('was-validated');
+					}, false);
+				});
+			}, false);
+		})();
+	</script>
+	
+</div>
