@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView
 from django.views import generic
 from rest_framework import generics
 from django.conf import settings
-
+from django import forms
 
 # Create your views here.
 def index(request):
@@ -27,6 +27,11 @@ class PetCreate(CreateView):
     model = Pet
     fields = ['name', 'age', 'sex', 'pet_type', 'breed',
               'availability', 'disposition', 'status', 'description']
+
+    def get_form(self, form_class=None):
+        form = super(PetCreate, self).get_form(form_class)
+        form.fields['description'].widget = forms.Textarea()
+        return form
 
     #if form is valid, add shelter ID to pet
     def form_valid(self, form):

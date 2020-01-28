@@ -3,3 +3,4 @@ pillow
 djangorestframework
 markdown
 django-filter
+django-crispy-forms

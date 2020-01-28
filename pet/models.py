@@ -39,7 +39,7 @@ class Picture(models.Model):
     
     def __str__(self):
         return self.description
-        
+
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
     # Choices for Availability

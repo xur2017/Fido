@@ -4,7 +4,8 @@ from .models import CustomUser
 from django.views.generic.edit import CreateView
 from django.views import generic
 from rest_framework import generics
-from django.forms import ModelForm
+from django.forms import ModelForm, forms
+from django import forms
 from django.contrib import messages
 
 #############################################################################
@@ -15,11 +16,28 @@ from django.contrib import messages
 #https://riptutorial.com/django/example/3998/form-and-object-creation
 #https://docs.djangoproject.com/en/3.0/ref/class-based-views/generic-editing/
 class UserCreate(ModelForm):
+    password_confirm = forms.CharField(widget=forms.PasswordInput)
     class Meta:
         template_name = 'user/user_form.html'
         model = CustomUser
-        fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password', 'phone_number',
+        fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password', 'password_confirm', 'phone_number',
                   'street_number', 'street_name', 'city', 'state', 'zip']
+        widgets = {
+            'password': forms.PasswordInput(),
+            'email': forms.EmailInput()
+        }
+
+    def clean(self):
+        super(UserCreate, self).clean()
+        error_message = ''
+        field = ''
+        if self.cleaned_data.get('password') != self.cleaned_data.get('password_confirm'):
+            error_message = 'Passwords do not match.'
+            field = 'password'
+            self.add_error(field, error_message)
+            raise forms.ValidationError(error_message)
+        return self.cleaned_data
+
 
 def createUser(request):
     test = request
