@@ -14,24 +14,8 @@
 		<li class="nav-item"><a class="nav-link" href="#"><b>Search</b></a></li>
 	</ul>
 	<!-- Profile-based navgiation links-->
-	{# if user.authenticated #} <!--- conditional for logged in user-->
-		{# if profile.parent #} <!--- conditional to detect if parent-->
-		<!--authenticated navigation-->
-		<ul class="nav navbar-nav ml-auto">
-			<img src="../img/cat-pet.jpg" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-					<span class="fa fa-user-plus"></span><b>Parent</b>
-				</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Account</a>
-					<a class="dropdown-item" href="#">Settings</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Log Out</a>
-				</div>
-			</li>
-		</ul>
-		{# elif profile.shelter #} <!--- conditional to detect if shelter-->
+	{% if request.user.is_authenticated %} <!--- conditional for logged in user-->
+		{% if request.user.user_type == 'S' %} <!--- conditional to detect if shelter-->
 		<!--authenticated navigation-->
 		<ul class="nav navbar-nav ml-auto">
 			<img src="../img/cat-pet.jpg" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
@@ -43,22 +27,38 @@
 					<a class="dropdown-item" href="#">Account</a>
 					<a class="dropdown-item" href="#">Settings</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#">Log Out</a>
+					<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
 				</div>
 			</li>
-		</ul>	
-		{# endif #} <!--- end if for shelter vs parent-->
-	{# else #} <!-- - conditional to detect if guest-->
+		</ul>
+		{% else %} <!--- conditional to detect if parent-->
+		<!--authenticated navigation-->
+		<ul class="nav navbar-nav ml-auto">
+			<img src="../img/cat-pet.jpg" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+					<span class="fa fa-user-plus"></span><b>Parent</b>
+				</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="#">Account</a>
+					<a class="dropdown-item" href="#">Settings</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
+				</div>
+			</li>
+		</ul>
+		{% endif %} <!--- end if for shelter vs parent-->
+	{% else %} <!-- - conditional to detect if guest-->
 	<!--guest navigation-->
 		<ul class="nav navbar-nav ml-auto">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><span class="fa fa-user-plus"></span><b>Sign Up</b></a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#"><b>Adopter</b></a>
+					<a class="dropdown-item" href=#><b>Adopter</b></a>
 					<a class="dropdown-item" href="#"><b>Shelter</b></a>
 				</div>
 			</li>
-			<li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-sign-in"></span>Login</a></li>
+			<li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><span class="fa fa-sign-in"></span>Login</a></li>
 		</ul>
-	{# endif #} <!------>
+	{% endif %} <!------>
 </nav>
