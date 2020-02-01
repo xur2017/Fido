@@ -85,6 +85,7 @@ DATABASES = {
      }
  }
 
+#Below is used for GCP ONLY
 #https://stackoverflow.com/questions/55657752/django-installing-mysqlclient-error-mysqlclient-1-3-13-or-newer-is-required
 # import pymysql  # noqa: 402
 # pymysql.version_info = (1, 3, 13, "final", 0)
@@ -120,7 +121,7 @@ DATABASES = {
 #             'PASSWORD': 'fidoTest',
 #         }
 #     }
-# [END db_setup]
+#[END db_setup]
 
 AUTH_USER_MODEL = 'pet.CustomUser'
 # Password validation
@@ -158,11 +159,38 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-STATIC_ROOT = 'static'
-STATIC_URL = '/static/'
+# some user input settings #
 
-
-# some user input settings # 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#This controls media and static files for GCP.  If local, it will use regular file storage
+#otherwise it will use google cloud storage
+if os.getenv('GAE_APPLICATION', None):
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS']=os.path.join(BASE_DIR, 'TeamFido-6ce43d9fe67b.json')
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+    GS_BUCKET_NAME = 'fido-media'
+    GS_PROJECT_ID = 'teamfido'
+
+    STATIC_ROOT = 'static'
+    STATIC_URL = '/static/'
+
+    MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+    MEDIA_ROOT = "media/"
+
+    UPLOAD_ROOT = 'media/uploads/'
+
+    DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")
+    DOWNLOAD_URL = STATIC_URL + "media/downloads"
+else:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+    STATIC_ROOT = 'static'
+    STATIC_URL = '/static/'
+
+    MEDIA_ROOT = 'media'
+    MEDIA_URL = '/media/'
+
+    UPLOAD_ROOT = 'uploads/'
+
+    DOWNLOAD_URL = STATIC_URL + "media/downloads"
+    DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")

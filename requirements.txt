@@ -5,3 +5,5 @@ markdown
 django-filter
 django-crispy-forms
 PyMySQL==0.9.3
+django-storages==1.7.1
+google-cloud-storage==1.10.0
