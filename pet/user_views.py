@@ -69,6 +69,11 @@ def createUser(request):
             else:
                 return render(request, 'user/user_form.html', {'form': form})
 
+#############################################################################
+# View User Functions:
+# View all details for a user
+# profile returns separate htmls for each type of user
+#############################################################################
 
 #view user, this will send all user info for /user/<id> as context
 class UserDetailView(generic.DetailView):

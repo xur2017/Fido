@@ -4,3 +4,4 @@ djangorestframework
 markdown
 django-filter
 django-crispy-forms
+PyMySQL==0.9.3

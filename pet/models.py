@@ -36,9 +36,12 @@ class Picture(models.Model):
 
     description = models.CharField(max_length=200)
     photo = models.ImageField(upload_to='photos/', blank=True)
-    
+
     def __str__(self):
         return self.description
+
+    def get_absolute_url(self):
+        return "/pet/%i/" % self.pet.id
 
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices

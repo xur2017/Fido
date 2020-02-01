@@ -25,7 +25,7 @@ SECRET_KEY = 'b=lky+gv=n-qv=@%#gt#jefu2x7_d@z@y1t0)3^h*#b9(&bh!b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['teamfido.appspot.com', 'localhost', '127.0.0.1', '[::1]']
 
 
 # Application definition
@@ -76,12 +76,51 @@ WSGI_APPLICATION = 'fido_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+
+#RUN THIS FOR A LOCAL SQLITE DB!!!
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+     }
+ }
+
+#https://stackoverflow.com/questions/55657752/django-installing-mysqlclient-error-mysqlclient-1-3-13-or-newer-is-required
+# import pymysql  # noqa: 402
+# pymysql.version_info = (1, 3, 13, "final", 0)
+# pymysql.install_as_MySQLdb()
+#
+# # [START db_setup]
+# if os.getenv('GAE_APPLICATION', None):
+#     # Running on production App Engine, so connect to Google Cloud SQL using
+#     # the unix socket at /cloudsql/<your-cloudsql-connection string>
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST': '/cloudsql/teamfido:us-central1:fido-instance',
+#             'USER': 'fidoAdmin',
+#             'PASSWORD': 'fidoTest',
+#             'NAME': 'fido',
+#         }
+#     }
+# else:
+#     # Running locally so connect to either a local MySQL instance or connect to
+#     # Cloud SQL via the proxy. To start the proxy via command line:
+#     #
+#     #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+#     #
+#     # See https://cloud.google.com/sql/docs/mysql-connect-proxy
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST': '127.0.0.1',
+#             'PORT': '3306',
+#             'NAME': 'fido',
+#             'USER': 'fidoAdmin',
+#             'PASSWORD': 'fidoTest',
+#         }
+#     }
+# [END db_setup]
 
 AUTH_USER_MODEL = 'pet.CustomUser'
 # Password validation
@@ -119,9 +158,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
-
+STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
-
 
 
 # some user input settings # 
