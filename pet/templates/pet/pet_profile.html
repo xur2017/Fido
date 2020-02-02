@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "../components/style.html" %}
+  </head>
+<body>
+  <div class="container">
+    <h5> Pet Profile: </h5>
+    <ul class="list-group">
+      <li class="list-group-item"> Name: {{ pet.name }} </li>
+      <li class="list-group-item"> Type: {{ pet.get_pet_type_display }} </li>
+      <li class="list-group-item"> Age: {{ pet.age|floatformat }} </li>
+      <li class="list-group-item"> Sex: {{ pet.get_sex_display }} </li>
+      <li class="list-group-item"> Breed: {{ pet.get_breed_display }} </li>
+      <li class="list-group-item"> Availability: {{ pet.get_availability_display }} </li>
+      <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
+      <li class="list-group-item"> Status: {{ pet.status }} </li>
+      <li class="list-group-item"> Description: {{ pet.description }} </li>
+    </ul>
+    {% for obj in picture %}
+      <div>
+      <h5>{{ obj.description }}</h5>
+      <img src="{{ obj.photo.url }}" class="img-fluid" />
+      </div>
+    {% endfor %}
+  </div>
+
+</body>
+</html>

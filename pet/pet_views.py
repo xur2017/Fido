@@ -12,6 +12,17 @@ from django.urls import reverse, reverse_lazy
 def index(request):
     return render(request, 'pet/index.html')
 
+class PetProfileView(generic.DetailView):
+    context_object_name = 'pet'
+    model = Pet
+    template_name = 'pet/pet_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        petId = self.kwargs.get('pk')
+        context['picture'] = Picture.objects.filter(pet_id=petId)
+        return context
+
 #############################################################################
 # Pet View Functions:
 # View for all pet information, including pictures
@@ -28,9 +39,6 @@ class PetDetailView(generic.DetailView):
         petId = self.kwargs.get('pk')
         context['picture'] = Picture.objects.filter(pet_id=petId)
         return context
-
-def petDetail(request, pk):
-    return PetDetailView.as_view()(request)
 
 #############################################################################
 # Pet Image Functions:
