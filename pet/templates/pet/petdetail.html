@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {% include "../components/style.html"%}
-</head>
+  <head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  </head>
 <body>
-  {% include "../components/nav-bar.html"%}
   You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} )
   <br> <a href="{% url 'pet:petpic' pk=pet.id %}">Click here to add a picture of your pet!</a>
   <br> Pet Details:
@@ -16,7 +18,10 @@
   <br> Status: {{ pet.status }}
   <br> Description: {{ pet.description }}
   {% for obj in picture %}
-  <br> <img src="{{ obj.photo.url }}" alt="img" style="max-width:50%">
+  <div class="col-md-4">
+    {{ obj.description }}
+    <img src="{{ obj.photo.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> 
+  </div> 
   {% endfor %}
 
 </body>

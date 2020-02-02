@@ -1,4 +1,4 @@
-{% load static%}
+{% load static %}
 
 <nav class="navbar navbar-expand-sm mb-3" style="background-color: #82f4f4df">
 	<a class="navbar-brand" href="#"><img src="{% static 'img/dog-icon.png'%}" alt="logo" style="width:40px;filter:brightness(3);"></a>
@@ -51,13 +51,7 @@
 	{% else %} <!-- - conditional to detect if guest-->
 	<!--guest navigation-->
 		<ul class="nav navbar-nav ml-auto">
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"><span class="fa fa-user-plus"></span><b>Sign Up</b></a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href=#><b>Adopter</b></a>
-					<a class="dropdown-item" href="#"><b>Shelter</b></a>
-				</div>
-			</li>
+      <li class="nav-item"><a class="nav-link" href="{% url 'pet:createuser' %}"><span class="fa fa-user-plus"></span>Sign Up</a></li>
 			<li class="nav-item"><a class="nav-link" href="{% url 'login' %}"><span class="fa fa-sign-in"></span>Login</a></li>
 		</ul>
 	{% endif %} <!------>
