@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    {% include "../components/style.html" %}
   </head>
 <body>
-  You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} )
-  <br> <a href="{% url 'pet:petpic' pk=pet.id %}">Click here to add a picture of your pet!</a>
-  <br> Pet Details:
-  <br> Age: {{ pet.age|floatformat }}
-  <br> Sex: {{ pet.get_sex_display }}
-  <br> Breed: {{ pet.get_breed_display }}
-  <br> Availability: {{ pet.get_availability_display }}
-  <br> Disposition: {{ pet.get_disposition_display }}
-  <br> Status: {{ pet.status }}
-  <br> Description: {{ pet.description }}
-  {% for obj in picture %}
-  <div class="col-md-4">
-    {{ obj.description }}
-    <img src="{{ obj.photo.url }}" class="img-responsive" style="width: 100%; float: left; margin-right: 10px;" /> 
-  </div> 
-  {% endfor %}
+  <div class="container">
+    <h5> You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} ) </h5>
+    <a href="{% url 'pet:petpic' pk=pet.id %}"> Click here to add a picture of your pet! </a>
+    <h5> Pet Details: </h5>
+    <ul class="list-group">
+      <li class="list-group-item"> Age: {{ pet.age|floatformat }} </li>
+      <li class="list-group-item"> Sex: {{ pet.get_sex_display }} </li>
+      <li class="list-group-item"> Breed: {{ pet.get_breed_display }} </li>
+      <li class="list-group-item"> Availability: {{ pet.get_availability_display }} </li>
+      <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
+      <li class="list-group-item"> Status: {{ pet.status }} </li>
+      <li class="list-group-item"> Description: {{ pet.description }} </li>
+    </ul>
+    {% for obj in picture %}
+      <div>
+      <h5>{{ obj.description }}</h5>
+      <img src="{{ obj.photo.url }}" class="img-fluid" />
+      </div>
+    {% endfor %}
+  </div>
 
 </body>
 </html>
