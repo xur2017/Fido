@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import Pet, Picture
 from django.views.generic.edit import CreateView
+from django.views.generic.list import ListView
 from django.views import generic
 from rest_framework import generics
 from django.conf import settings
@@ -38,6 +39,18 @@ class PetDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         petId = self.kwargs.get('pk')
         context['picture'] = Picture.objects.filter(pet_id=petId)
+        return context
+
+def petDetail(request, pk):
+    return PetDetailView.as_view()(request)
+
+class PetListView(ListView):
+    model = Pet
+    #paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
         return context
 
 #############################################################################

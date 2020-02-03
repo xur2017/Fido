@@ -24,6 +24,7 @@ class CustomUser(AbstractUser):
     state = models.CharField(max_length=40, blank=True)
     zip = models.CharField(max_length=40, blank=True)
     document = models.FileField(upload_to='documents/', blank=True)
+    profilePic = models.ImageField(upload_to='userPics/', blank=True)
 
     def __str__(self):
         return self.username
@@ -34,7 +35,7 @@ class CustomUser(AbstractUser):
 class Picture(models.Model):
     pet = models.ForeignKey('Pet', on_delete=models.CASCADE, default=None)
 
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, blank=True)
     photo = models.ImageField(upload_to='photos/', blank=True)
 
     def __str__(self):

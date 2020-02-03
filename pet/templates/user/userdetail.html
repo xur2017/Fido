@@ -6,5 +6,11 @@
 <body>
   {% include "../components/nav-bar.html"%}
   You have successfully created a user named: {{ customuser.username }} ( {{ customuser.get_user_type_display }} )
+<br>
+  <br>List of Pets Associated:
+  {% for obj in pets %}
+  <br> {{ obj.name }}
+  {% endfor %}
+
 </body>
 </html>

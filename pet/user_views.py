@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from .models import CustomUser
+from .models import CustomUser, Pet
 from django.views.generic.edit import CreateView
 from django.views import generic
 from rest_framework import generics
@@ -21,11 +21,16 @@ class UserCreate(ModelForm):
         template_name = 'user/user_form.html'
         model = CustomUser
         fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password', 'password_confirm', 'phone_number',
-                  'street_number', 'street_name', 'city', 'state', 'zip']
+                  'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
         widgets = {
             'password': forms.PasswordInput(),
-            'email': forms.EmailInput()
+            'email': forms.EmailInput(),
+            'profilePic' : forms.FileInput()
         }
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreate, self).__init__(*args, **kwargs)
+        self.fields['profilePic'].label = "Profile Picture"
 
     def clean(self):
         super(UserCreate, self).clean()
@@ -37,7 +42,6 @@ class UserCreate(ModelForm):
             self.add_error(field, error_message)
             raise forms.ValidationError(error_message)
         return self.cleaned_data
-
 
 def createUser(request):
     test = request
@@ -80,10 +84,20 @@ class UserDetailView(generic.DetailView):
     model = CustomUser
     template_name = 'user/userdetail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        userId = self.kwargs.get('pk')
+        context['pets'] = Pet.objects.filter(users=userId)
+        return context
+
 def profile(request):
+    #sends list of favorite pets AND/OR shelter's pets
+    userId = request.user.id
+    context = { 'request': request }
+    context['pets'] = Pet.objects.filter(users=userId)
     if request.user.user_type == 'S':
-        return render(request, 'user/profileShelter.html')
+        return render(request, 'user/profileShelter.html', context)
     elif request.user.user_type == 'P':
-        return render(request, 'user/profileParent.html')
+        return render(request, 'user/profileParent.html', context)
     else:
         return HttpResponseRedirect(reverse('login'))

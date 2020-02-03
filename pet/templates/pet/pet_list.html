@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pet List</title>
+</head>
+<body>
+    <h1>Pets</h1>
+<ul>
+{% for pet in object_list %}
+    <li><a href="{% url 'pet:petdetail' pet.id %}">{{ pet.name }}</a></li>
+{% empty %}
+    <li>No pets yet.</li>
+{% endfor %}
+    <br><br>
+    <br><a href="{% url 'pet:index' %}">Home</a>
+</ul>
+</body>
+</html>
