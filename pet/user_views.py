@@ -8,6 +8,17 @@ from django.forms import ModelForm, forms
 from django import forms
 from django.contrib import messages
 
+class UserProfileView(generic.DetailView):
+    context_object_name = 'user'
+    model = CustomUser
+    template_name = 'user/user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        userId = self.kwargs.get('pk')
+        context['pets'] = Pet.objects.filter(users=userId)
+        return context
+
 #############################################################################
 # Create User Functions:
 # createUser calls UserCreate to use ModelForm
