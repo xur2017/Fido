@@ -213,13 +213,14 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/home'
 #LOGOUT_REDIRECT_URL = 'login'
 
-SOCIAL_AUTH_GITHUB_KEY = '32c7ae0fcec35248bb62'
-SOCIAL_AUTH_GITHUB_SECRET = 'c08d50bdcdbffd510f8421b4ac16783c2a7cf8b1'
-SOCIAL_AUTH_FACEBOOK_KEY = '250106642640198'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'cde8a022aefb91cca4f8aa3507fffc33'
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1092683327345-74m8qel1012n165b2updeemibobfecel.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'dNTaUvvOKZlEGzB_JfryjMXH'
+#4
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 #1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
 #2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
 #3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
+#4. https://dev.to/codetricity/how-to-set-up-django-with-central-oauth2-login-1co
+
