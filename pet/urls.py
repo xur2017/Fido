@@ -16,7 +16,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_views.profile, name='profile'),
     path('pet_profile/<int:pk>/', pet_views.PetProfileView.as_view(), name='pet_profile'),
-    path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile')
+    path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile'),
     path('home/', user_views.home, name='home'), #1
 ]
 #1. https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
