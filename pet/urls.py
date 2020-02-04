@@ -17,5 +17,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/profile/', user_views.profile, name='profile'),
     path('pet_profile/<int:pk>/', pet_views.PetProfileView.as_view(), name='pet_profile'),
-    path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile')
+    path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile'),
+    path('pet_filter', pet_views.search, name='pet_filter'),
 ]

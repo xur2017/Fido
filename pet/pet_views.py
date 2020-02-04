@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse, Http404
-from .models import Pet, Picture
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views import generic
@@ -10,9 +9,17 @@ from django import forms
 from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 
+from .models import Pet, Picture
+from .filters import PetFilter
+
 # Create your views here.
 def index(request):
     return render(request, 'pet/index.html')
+
+def search(request):
+    pet_list = Pet.objects.all()
+    pet_filter = PetFilter(request.GET, queryset=pet_list)
+    return render(request, 'pet/pet_filter.html', {'filter': pet_filter})
 
 class PetProfileView(generic.DetailView):
     context_object_name = 'pet'

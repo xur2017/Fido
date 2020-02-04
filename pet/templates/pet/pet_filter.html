@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {% include "../components/style.html" %}
+  </head>
+  <body>
+    <div class="row">
+      <div class="col"></div>
+        <div class="col">
+          
+          <h5> Pet Search: </h5>
+          {% load crispy_forms_tags %}
+          <form method="get">
+            {{ filter.form|crispy }}
+            <button type="submit" class="btn btn-primary">Search</button>
+          </form>
+        
+          <ol>
+            {% for pet in filter.qs %}
+            <li><a href="{% url 'pet:pet_profile' pet.id %}">Name: {{ pet.name }}, Type: {{ pet.get_pet_type_display }}</a></li>
+            {% endfor %}
+          </ol>
+    
+        </div>
+      <div class="col"></div>
+    </div>
+  </body>
+</html>
