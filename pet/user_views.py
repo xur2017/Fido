@@ -7,6 +7,7 @@ from rest_framework import generics
 from django.forms import ModelForm, forms
 from django import forms
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required #1
 
 class UserProfileView(generic.DetailView):
     context_object_name = 'user'
@@ -112,3 +113,10 @@ def profile(request):
         return render(request, 'user/profileParent.html', context)
     else:
         return HttpResponseRedirect(reverse('login'))
+
+@login_required
+def home(request):
+    return render(request, 'registration/home.html')
+#1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
+#2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
+#3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1

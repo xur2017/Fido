@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'pet',
     'crispy_forms',
+    'social_django', #1
 ]
 
 MIDDLEWARE = [
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware', #1
 ]
 
 ROOT_URLCONF = 'fido_project.urls'
@@ -65,9 +67,20 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',  #1
+                'social_django.context_processors.login_redirect', #1
             ],
         },
     },
+]
+
+#1
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+
 ]
 
 WSGI_APPLICATION = 'fido_project.wsgi.application'
@@ -194,3 +207,19 @@ else:
 
     DOWNLOAD_URL = STATIC_URL + "media/downloads"
     DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")
+
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = '/home'
+#LOGOUT_REDIRECT_URL = 'login'
+
+SOCIAL_AUTH_GITHUB_KEY = '32c7ae0fcec35248bb62'
+SOCIAL_AUTH_GITHUB_SECRET = 'c08d50bdcdbffd510f8421b4ac16783c2a7cf8b1'
+SOCIAL_AUTH_FACEBOOK_KEY = '250106642640198'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'cde8a022aefb91cca4f8aa3507fffc33'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '1092683327345-74m8qel1012n165b2updeemibobfecel.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'dNTaUvvOKZlEGzB_JfryjMXH'
+
+#1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
+#2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
+#3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1

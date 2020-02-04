@@ -4,7 +4,6 @@ from . import pet_views, user_views
 
 app_name = 'pet'
 
-#https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
 urlpatterns = [
     path('', pet_views.index, name='index'),
     path('pet/', pet_views.createPet, name='createpet'),
@@ -18,5 +17,11 @@ urlpatterns = [
     path('accounts/profile/', user_views.profile, name='profile'),
     path('pet_profile/<int:pk>/', pet_views.PetProfileView.as_view(), name='pet_profile'),
     path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile'),
+<<<<<<< HEAD
     path('pet_filter', pet_views.search, name='pet_filter'),
 ]
+=======
+    path('home/', user_views.home, name='home'), #1
+]
+#1. https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
+>>>>>>> a8f10302ef0db2b10bf55904b36a9c9aa7da54dd
