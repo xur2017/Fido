@@ -17,9 +17,11 @@
       <li class="list-group-item"> Status: {{ pet.status }} </li>
       <li class="list-group-item"> Description: {{ pet.description }} </li>
     </ul>
+    
+    <h5> List of Photos Associated: </h5>
     {% for obj in picture %}
       <div>
-      <h5>{{ obj.description }}</h5>
+      <p>{{ obj.description }}</p>
       <img src="{{ obj.photo.url }}" class="img-fluid" />
       </div>
     {% endfor %}

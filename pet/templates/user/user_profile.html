@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "../components/style.html" %}
+  </head>
+<body>
+  <div class="container">
+    <h5> User Profile: </h5>
+    <ul class="list-group">
+      <li class="list-group-item"> Name: {{ user.username }} </li>
+      <li class="list-group-item"> Type: {{ user.get_user_type_display }} </li>
+      <li class="list-group-item"> Phone: {{ user.phone_number }} </li>
+      <li class="list-group-item"> Email: {{ user.email }} </li>
+      <li class="list-group-item"> Address: {{ user.street_number }} {{ user.street_name }} {{ user.city }} {{ user.state }}{{ user.zip }}</li>
+    </ul>
+    
+    <h5> List of Pets Associated: </h5>
+    <ol>
+      {% for pet in pets %}
+      <li><a href="{% url 'pet:pet_profile' pet.id %}">Name: {{ pet.name }}, Type: {{ pet.get_pet_type_display }}</a></li>
+      {% endfor %}
+    </ol>
+  </div>
+
+</body>
+</html>

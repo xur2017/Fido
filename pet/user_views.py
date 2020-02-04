@@ -9,6 +9,17 @@ from django import forms
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required #1
 
+class UserProfileView(generic.DetailView):
+    context_object_name = 'user'
+    model = CustomUser
+    template_name = 'user/user_profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        userId = self.kwargs.get('pk')
+        context['pets'] = Pet.objects.filter(users=userId)
+        return context
+
 #############################################################################
 # Create User Functions:
 # createUser calls UserCreate to use ModelForm
