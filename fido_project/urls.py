@@ -17,10 +17,15 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views #1
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path(r'^api-auth/', include('rest_framework.urls')),
     path('', include('pet.urls')),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('oauth/', include('social_django.urls', namespace='social')), #1
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+#1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html

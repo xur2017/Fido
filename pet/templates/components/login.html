@@ -1,8 +1,9 @@
 <div class="container-fluid p-5" align="center">
 	<div>
 		<h3>Log in</h3>
-		<a href = "#" type="button" class="btn btn-danger btn-lg">Google</a>
-		<a href = "##" type="button" class="btn btn-primary btn-lg">Facebook</a>
+		<a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
+		<a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
+		<a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
 	</div>
 	<hr style="width:50%;">
 	<div style="max-width:80%;">
@@ -43,3 +44,9 @@
 	</script>
 	
 </div>
+
+<!--
+#1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
+#2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
+#3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
+-->
