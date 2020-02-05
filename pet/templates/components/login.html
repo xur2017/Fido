@@ -8,10 +8,11 @@
 	<hr style="width:50%;">
 	<div style="max-width:80%;">
 		<h3>or</h3>
-		<form action="/action_page.php" class="needs-validation" novalidate>
+		<form action="{% url 'login' %}" method="POST" class="needs-validation" novalidate>
+			{% csrf_token %}
 			<div class="form-group">
-			<label for="email">Email address:</label>
-			<input type="email" class="form-control" placeholder="Enter email" id="email" name="email" required>
+			<label for="username">Username:</label>
+			<input type="username" class="form-control" placeholder="Enter username" id="username" name="username" required>
 			</div>
 			<div class="form-group">
 			<label for="password">Password:</label>
@@ -19,6 +20,7 @@
 			</div>
 			<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 		</form>
+
 	</div>
 
 	<script>

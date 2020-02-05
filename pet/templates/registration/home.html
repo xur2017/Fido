@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    You are logged in as {{ user.username }}.
+    <br><br>
+    <a href="{% url 'logout' %}">Logout</a>
+    <br><br>
+    <a href="{% url 'pet:index' %}">Home</a>
+</body>
+</html>
