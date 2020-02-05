@@ -119,3 +119,24 @@ def createPet(request):
         else:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
+#############################################################################
+# Edit Pet Functions:
+# If user is authenticated and pet belongs to user, allows update to existing
+# pet.  If user is not logged in, login page displays
+# if user does not own pet, 404 displays
+#############################################################################
+class PetEdit(generic.UpdateView):
+    model = Pet
+    fields = ['name', 'age', 'sex', 'pet_type', 'breed',
+              'availability', 'disposition', 'status', 'description']
+    template_name_suffix = '_update_form'
+
+    def get_object(self, *args, **kwargs):
+        obj = super(PetEdit, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            for u in obj.users.all():
+                if u.id == self.request.user.id:
+                    return obj
+            raise Http404
+        else:
+            return redirect('%s?next=%s' % (settings.LOGIN_URL, self.request.path))
