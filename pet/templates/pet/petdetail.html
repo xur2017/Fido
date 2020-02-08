@@ -6,7 +6,7 @@
 <body>
 	{% include "../components/nav-bar.html" %}
   <div class="container">
-    <h5> You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} ) </h5>
+    <h5> You are viewing details for a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} ) </h5>
     <a href="{% url 'pet:petpic' pk=pet.id %}"> Click here to add a picture of your pet! </a>
     <br>
     <a href="{% url 'pet:editpet' pk=pet.id %}"> Click here to update your pet's details! </a>

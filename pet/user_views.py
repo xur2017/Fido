@@ -6,6 +6,7 @@ from django.forms import ModelForm, forms
 from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required #1
+from django.utils.decorators import method_decorator
 
 class UserProfileView(generic.DetailView):
     context_object_name = 'user'
@@ -146,6 +147,25 @@ class UserPetView(generic.DetailView):
 #             raise Http404
 #         else:
 #             return redirect('%s?next=%s' % (settings.LOGIN_URL, self.request.path))
+
+#############################################################################
+# Edit User Functions:
+# Allows user to update profile if authenticated and is user
+#############################################################################
+class UserEdit(generic.UpdateView):
+    model = CustomUser
+    fields = ['user_type', 'first_name', 'last_name', 'email', 'phone_number',
+                      'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
+    template_name= 'user/user_update_form.html'
+
+    def get_object(self, *args, **kwargs):
+        obj = super(UserEdit, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            if obj.id == self.request.user.id:
+                return obj
+            raise Http404
+        else:
+            raise Http404
 
 @login_required
 def home(request):

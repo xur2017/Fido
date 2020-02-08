@@ -6,6 +6,9 @@
 <body>
 	{% include "../components/nav-bar.html" %}
   <div class="container">
+    {% if request.user.is_authenticated %}
+
+    {% endif %}
     <h5> Pet Profile: </h5>
     <ul class="list-group">
       <li class="list-group-item"> Name: {{ pet.name }} </li>
@@ -27,6 +30,7 @@
       </div>
     {% endfor %}
   </div>
+   {%include "../components/footer.html"%}
 
 </body>
 </html>
