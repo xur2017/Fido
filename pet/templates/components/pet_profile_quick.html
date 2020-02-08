@@ -21,11 +21,8 @@
 <div class="col-sm m-3">
 	<div class="card" style="width:300px;">
 		<div class="card-body text-center">
-		{% if obj.photo.url %}
-			<!--img class="card-img-top" src="{{ Picture.obj.photo.url }}" alt="card-image" style="max-width:200px; max-height:200px;"-->
-		{% else %}
-			<img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;">
-		{% endif %}
+			<!--profile/main pic of pet-->
+			<!--img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;"-->
 			<div class="card-body text-center">
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
