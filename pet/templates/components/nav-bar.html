@@ -2,16 +2,19 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-sm mb-3" style="background-color: #82f4f4df">
-	<a class="navbar-brand" href="{% url 'pet:index' %}"><img src="{% static 'img/dog-icon.png'%}" alt="logo" style="width:40px;filter:brightness(3);"></a>
 	<!-- brand/logo -->
-	<ul class="navbar-nav">   
+	<a class="navbar-brand" href="{% url 'pet:index' %}"><img src="{% static 'img/dog-icon.png'%}" alt="logo" style="width:40px;filter:brightness(3);"></a>
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="myToggleNav" aria-expanded="false" aria-label="Toggle Navigation">
+		<span class="fa fa-bars"></span>
+	</button>
+    <div class="navbar-collapse collapse" id="navbarCollapse">
+		<ul class="navbar-nav">    
 		<!-- standard navigation links -->
 		<li class="nav-item"><a class="nav-link" href="{% url 'pet:index' %}"><b>Home</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="#"><b>About Us</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="#"><b>Our Services</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="https://www.paypal.com/paypalme2/findingfido"><b>Donate</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="#"><b>Volunteer</b></a></li>
-		<li class="nav-item"><a class="nav-link" href="#"><b>Contact</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="{% url 'pet:pet_filter' %}"><b>Search</b></a></li>
 	</ul>
 	<!-- Profile-based navgiation links-->
@@ -67,3 +70,14 @@
 		</ul>
 	{% endif %} <!------>
 </nav>
+
+<script>
+	(function() {
+		'use strict';
+
+		$(document).click(function (event) {
+			if (!($(event.target).is('#navbar-collapse-first *'))
+				$('.navbar-collapse-first').collapse('hide');
+		});
+	}(jQuery));
+</script>
