@@ -6,7 +6,7 @@
 	<!-- brand/logo -->
 	<ul class="navbar-nav">   
 		<!-- standard navigation links -->
-		<li class="nav-item"><a class="nav-link" href="#"><b>Home</b></a></li>
+		<li class="nav-item"><a class="nav-link" href="{% url 'pet:index' %}"><b>Home</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="#"><b>About Us</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="#"><b>Our Services</b></a></li>
 		<li class="nav-item"><a class="nav-link" href="https://www.paypal.com/paypalme2/findingfido"><b>Donate</b></a></li>
@@ -19,14 +19,16 @@
 		{% if request.user.user_type == 'S' %} <!--- conditional to detect if shelter-->
 		<!--authenticated navigation-->
 		<ul class="nav navbar-nav ml-auto">
-			<img src="../img/cat-pet.jpg" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
+			<img src="{% static 'img/cat-pet.jpg'%}" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 					<span class="fa fa-user-plus"></span><b>Shelter</b>
 				</a>
 				<div class="dropdown-menu">
-					<a class="dropdown-item" href="#">Account</a>
+					<a class="dropdown-item" href="{% url 'pet:profile' %}">Account</a>
 					<a class="dropdown-item" href="#">Settings</a>
+					<a class="dropdown-item" href="{% url 'pet:createpet' %}">Add a Pet</a>
+					<a class="dropdown-item" href="{% url 'pet:userpetsview' user.id%}">View Your Pets</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
 				</div>
@@ -35,7 +37,7 @@
 		{% else %} <!--- conditional to detect if parent-->
 		<!--authenticated navigation-->
 		<ul class="nav navbar-nav ml-auto">
-			<img src="../img/cat-pet.jpg" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
+			<img src="{% static 'img/cat-pet.jpg'%}" class="rounded-circle" alt="profile-icon" style="width:50px;height:50px;">
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 					<span class="fa fa-user-plus"></span><b>Parent</b>

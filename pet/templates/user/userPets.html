@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include "../components/style.html"%}
+</head>
+<body>
+
+  {% include "../components/nav-bar.html"%}
+  Viewing pets for: {{ customuser.username }} ( {{ customuser.get_user_type_display }} )
+<br>
+  <br>List of Pets Associated:
+  	{% if request.user.is_authenticated %} <!--- conditional for logged in user-->
+        {% for pet in pets %}
+            <li><a href="{% url 'pet:petdetail' pet.id %}">{{ pet.name }}</a></li>
+        {% empty %}
+            <li>No pets yet.</li>
+        {% endfor %}
+    {% else %}
+        {% for pet in pets %}
+            <li><a href="{% url 'pet:pet_profile' pet.id %}">{{ pet.name }}</a></li>
+        {% empty %}
+            <li>No pets yet.</li>
+        {% endfor %}
+    {% endif %}
+
+</body>
+</html>

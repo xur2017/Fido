@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Pet List</title>
+    	{% include "../components/style.html" %}
 </head>
 <body>
+	{% include "../components/nav-bar.html" %}
     <h1>Pets</h1>
 <ul>
 {% for pet in object_list %}

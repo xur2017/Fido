@@ -1,12 +1,10 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import CustomUser, Pet
-from django.views.generic.edit import CreateView
 from django.views import generic
-from rest_framework import generics
 from django.forms import ModelForm, forms
 from django import forms
-from django.contrib import messages
+from django.conf import settings
 from django.contrib.auth.decorators import login_required #1
 
 class UserProfileView(generic.DetailView):
@@ -33,16 +31,16 @@ class UserCreate(ModelForm):
         template_name = 'user/user_form.html'
         model = CustomUser
         fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password', 'password_confirm', 'phone_number',
-                  'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
+                  'street_number', 'street_name', 'city', 'state', 'zip']
         widgets = {
             'password': forms.PasswordInput(),
             'email': forms.EmailInput(),
-            'profilePic' : forms.FileInput()
+            #'profilePic' : forms.FileInput()
         }
 
     def __init__(self, *args, **kwargs):
         super(UserCreate, self).__init__(*args, **kwargs)
-        self.fields['profilePic'].label = "Profile Picture"
+        #self.fields['profilePic'].label = "Profile Picture"
 
     def clean(self):
         super(UserCreate, self).clean()
@@ -113,6 +111,41 @@ def profile(request):
         return render(request, 'user/profileParent.html', context)
     else:
         return HttpResponseRedirect(reverse('login'))
+
+
+
+class UserPetView(generic.DetailView):
+    model = CustomUser
+    template_name = 'user/userPets.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        userId = self.kwargs.get('pk')
+        context['pets'] = Pet.objects.filter(users=userId)
+        return context
+#############################################################################
+# Edit User Functions:
+# Allows user to update profile if authenticated and is user
+#############################################################################
+# class UserEdit(generic.UpdateView):
+#     model = CustomUser
+#     fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password',  'phone_number',
+#                   'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
+#     template_name= 'user/user_update_form.html'
+#     widgets = {
+#         'password': forms.PasswordInput(),
+#         'email': forms.EmailInput(),
+#         'profilePic': forms.FileInput()
+#     }
+#
+#     def get_object(self, *args, **kwargs):
+#         obj = super(UserEdit, self).get_object(*args, **kwargs)
+#         if self.request.user.is_authenticated:
+#             if obj.id == self.request.user.id:
+#                 return obj
+#             raise Http404
+#         else:
+#             return redirect('%s?next=%s' % (settings.LOGIN_URL, self.request.path))
 
 @login_required
 def home(request):

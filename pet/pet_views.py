@@ -8,6 +8,8 @@ from django.conf import settings
 from django import forms
 from django.utils import timezone
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .models import Pet, Picture
 from .filters import PetFilter
@@ -21,6 +23,37 @@ def search(request):
     pet_filter = PetFilter(request.GET, queryset=pet_list)
     return render(request, 'pet/pet_filter.html', {'filter': pet_filter})
 
+#############################################################################
+# Pet View Functions:
+# View for all pet information, including pictures
+# For shelter, not allowed for pet parent
+#############################################################################
+#view pet, this will send all Pet info for /pet/<id> as context
+#it will also send all pictures associated with that pet
+class PetDetailView(generic.DetailView):
+    context_object_name = 'pet'
+    model = Pet
+    template_name = 'pet/petdetail.html'
+
+    def get_object(self, queryset=None, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            obj = super(PetDetailView, self).get_object(*args, **kwargs)
+            for u in obj.users.all():
+                if u.id == self.request.user.id:
+                    return obj
+                else:
+                    raise Http404
+            raise Http404
+        else:
+            raise Http404
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        petId = self.kwargs.get('pk')
+        context['picture'] = Picture.objects.filter(pet_id=petId)
+        return context
+
+#This is for pet parents, not owner of pet profile
 class PetProfileView(generic.DetailView):
     context_object_name = 'pet'
     model = Pet
@@ -33,25 +66,9 @@ class PetProfileView(generic.DetailView):
         return context
 
 #############################################################################
-# Pet View Functions:
-# View for all pet information, including pictures
+# Pet List Functions:
+# For browse
 #############################################################################
-#view pet, this will send all Pet info for /pet/<id> as context
-#it will also send all pictures associated with that pet
-class PetDetailView(generic.DetailView):
-    context_object_name = 'pet'
-    model = Pet
-    template_name = 'pet/petdetail.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        petId = self.kwargs.get('pk')
-        context['picture'] = Picture.objects.filter(pet_id=petId)
-        return context
-
-def petDetail(request, pk):
-    return PetDetailView.as_view()(request)
-
 class PetListView(ListView):
     model = Pet
     #paginate_by = 100  # if pagination is desired
@@ -75,9 +92,21 @@ class PetImageCreate(CreateView):
     model = Picture
     fields = ['description', 'photo']
 
+    def get_initial(self, queryset=None, *args, **kwargs):
+        petId = self.kwargs.get('pk')
+        obj = Pet.objects.get(id=petId)
+        if obj is not None:
+            if self.request.user.is_authenticated:
+                for u in obj.users.all():
+                    if u.id == self.request.user.id:
+                        initial = super(PetImageCreate, self).get_initial(**kwargs)
+                        return initial
+                raise Http404
+            else:
+                raise Http404
+
     def form_valid(self, form):
         petId = self.kwargs.get('pk')
-        Pet.objects
         pet = Pet(id=petId)
         form.instance.pet = pet
         return super(PetImageCreate, self).form_valid(form)
@@ -131,6 +160,7 @@ class PetEdit(generic.UpdateView):
               'availability', 'disposition', 'status', 'description']
     template_name_suffix = '_update_form'
 
+    @method_decorator(login_required)
     def get_object(self, *args, **kwargs):
         obj = super(PetEdit, self).get_object(*args, **kwargs)
         if self.request.user.is_authenticated:
@@ -139,4 +169,4 @@ class PetEdit(generic.UpdateView):
                     return obj
             raise Http404
         else:
-            return redirect('%s?next=%s' % (settings.LOGIN_URL, self.request.path))
+            raise Http404

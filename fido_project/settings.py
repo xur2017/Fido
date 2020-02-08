@@ -134,7 +134,7 @@ DATABASES = {
 #             'PASSWORD': 'fidoTest',
 #         }
 #     }
-#[END db_setup]
+# #[END db_setup]
 
 AUTH_USER_MODEL = 'pet.CustomUser'
 # Password validation
@@ -208,7 +208,7 @@ else:
     DOWNLOAD_URL = STATIC_URL + "media/downloads"
     DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")
 
-LOGIN_URL = 'login'
+LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/home'
 #LOGOUT_REDIRECT_URL = 'login'

@@ -4,9 +4,12 @@
     {% include "../components/style.html" %}
   </head>
 <body>
+	{% include "../components/nav-bar.html" %}
   <div class="container">
     <h5> You have successfully created a pet named: {{ pet.name }} ( {{ pet.get_pet_type_display }} ) </h5>
     <a href="{% url 'pet:petpic' pk=pet.id %}"> Click here to add a picture of your pet! </a>
+    <br>
+    <a href="{% url 'pet:editpet' pk=pet.id %}"> Click here to update your pet's details! </a>
     <h5> Pet Details: </h5>
     <ul class="list-group">
       <li class="list-group-item"> Age: {{ pet.age|floatformat }} </li>
@@ -24,6 +27,6 @@
       </div>
     {% endfor %}
   </div>
-
+   {% include "../components/footer.html" %}
 </body>
 </html>
