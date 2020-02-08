@@ -160,7 +160,11 @@ class PetEdit(generic.UpdateView):
               'availability', 'disposition', 'status', 'description']
     template_name_suffix = '_update_form'
 
+    #https://stackoverflow.com/questions/44935522/how-to-use-login-reuqired-on-update-create-delete-views-in-django
     @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(PetEdit, self).dispatch(*args, **kwargs)
+
     def get_object(self, *args, **kwargs):
         obj = super(PetEdit, self).get_object(*args, **kwargs)
         if self.request.user.is_authenticated:
