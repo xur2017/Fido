@@ -16,15 +16,21 @@
 	    </div>
 	    <div class="col-md-8 my-3">
 ----------------------------------------------------------------->
+{% load static %}
+
 <div class="col-sm m-3">
 	<div class="card" style="width:300px;">
 		<div class="card-body text-center">
-			<img class="card-img-top" src="{{ request.user.profilePic.url }}" alt="card-image" style="max-width:400px; max-height:400px;">
+		{% if obj.photo.url %}
+			<!--img class="card-img-top" src="{{ Picture.obj.photo.url }}" alt="card-image" style="max-width:200px; max-height:200px;"-->
+		{% else %}
+			<img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;">
+		{% endif %}
 			<div class="card-body text-center">
-				<p>Avaliability</p>
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
-		    	<button type="button" class="btn btn-primary">Add</button>
+				<p>{{ obj.get_availability_display }}</p>
+		    	<button type="button" class="btn btn-primary" href="#">Add</button>
 			</div>
 		</div>
 	</div>
