@@ -211,7 +211,7 @@ else:
 #https://docs.djangoproject.com/en/3.0/ref/settings/
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = '/home'
+LOGIN_REDIRECT_URL = '/complete'
 #LOGOUT_REDIRECT_URL = 'login'
 
 #4

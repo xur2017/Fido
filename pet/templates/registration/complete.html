@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include "../components/style.html" %}
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+      <p>You are logged in as <b>{{ user.username }}</b>. Click here to return to the <a href="{% url 'pet:index' %}">Main</a> page.<p> 
+    </div>
+  </div>
+ {%include "../components/footer.html"%}
+</body>
+</html>
