@@ -6,13 +6,13 @@
   </head>
   <body>
   	{% include "../components/nav-bar.html" %}
-    <div class="container p-5 ">
-      <div class="row-md-12 mx-auto" align="center">
-        {% load crispy_forms_tags %}
+    <div class="container p-5">
+      <div class="d-flex justify-content-center">
         <h1>Create Pet Page</h1>
       </div>
-      <div class="row-md-12 mx-auto" style="max-width:600px">
+      <div class="d-flex justify-content-center">
         <form  method="post">
+          {% load crispy_forms_tags %}
           {% csrf_token %}
           <div class="form-row">
             <div class="form-group col-md-6 mb-0">{{ form.name | as_crispy_field }}</div>
@@ -34,13 +34,14 @@
           <button  type="submit"  class="btn btn-primary">Submit</button>
         </form>
       </div>
-      <div class="row-md-12 mx-auto" align="center">
-        <h2>Or</h2>
+      <hr style="width:50%">
+      <div class="d-flex justify-content-center">
+        <h2>Or, log in with: </h2>
       </div>
-      <div class="d-flex flex-column mx-auto" style="max-width:300px">
-        <a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Log in with Google (OSU)</a>
-        <a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Log in with Facebook</a>
-        <a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">Log in with GitHub</a>
+      <div class="d-flex justify-content-center">
+        <a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
+        <a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
+        <a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
       </div>
     </div>
     {%include "../components/footer.html"%}
