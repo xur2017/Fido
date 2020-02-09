@@ -69,7 +69,7 @@ def createUser(request):
                 user.zip = form.cleaned_data['zip']
                 user.user_type = form.cleaned_data['user_type']
                 user.save()
-                return HttpResponseRedirect('%s' % user.id)
+                return render(request, 'user/user_create_success.html', {'username': user.username })
             else:
                 return render(request, 'user/user_form.html', {'form': form})
 

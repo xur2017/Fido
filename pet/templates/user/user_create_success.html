@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    	{% include "../components/style.html" %}
+
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
+
+    You have successfully created a user named: {{ username }}.
+    <br><br>
+    <a href="{% url 'login' %}">Click here to login</a>
+
+   {%include "../components/footer.html"%}
+
+</body>
+</html>
