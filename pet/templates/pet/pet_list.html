@@ -7,16 +7,13 @@
 </head>
 <body>
 	{% include "../components/nav-bar.html" %}
-    <h1>Pets</h1>
-<ul>
-{% for pet in object_list %}
-    <li><a href="{% url 'pet:petdetail' pet.id %}">{{ pet.name }}</a></li>
-{% empty %}
-    <li>No pets yet.</li>
-{% endfor %}
-    <br><br>
-    <br><a href="{% url 'pet:index' %}">Home</a>
-</ul>
+
+    <div class="row" align ="center">
+      {% for obj in object_list %}
+        {% include "../components/pet_profile_quick.html"%}
+      {% endfor %}
+    </div>
+
 </body>
    {%include "../components/footer.html"%}
 

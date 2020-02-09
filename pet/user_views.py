@@ -8,17 +8,6 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required #1
 from django.utils.decorators import method_decorator
 
-class UserProfileView(generic.DetailView):
-    context_object_name = 'user'
-    model = CustomUser
-    template_name = 'user/user_profile.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        userId = self.kwargs.get('pk')
-        context['pets'] = Pet.objects.filter(users=userId)
-        return context
-
 #############################################################################
 # Create User Functions:
 # createUser calls UserCreate to use ModelForm
@@ -91,9 +80,20 @@ def createUser(request):
 #############################################################################
 
 #view user, this will send all user info for /user/<id> as context
+#for user's view only, not general public
 class UserDetailView(generic.DetailView):
     model = CustomUser
     template_name = 'user/userdetail.html'
+
+    def get_object(self, queryset=None, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            obj = super(UserDetailView, self).get_object(*args, **kwargs)
+            if obj.id == self.request.user.id:
+                return obj
+            else:
+                raise Http404
+        else:
+            raise Http404
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -113,7 +113,17 @@ def profile(request):
     else:
         return HttpResponseRedirect(reverse('login'))
 
+#general Public view
+class UserProfileView(generic.DetailView):
+    context_object_name = 'user'
+    model = CustomUser
+    template_name = 'user/user_profile.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        userId = self.kwargs.get('pk')
+        context['pets'] = Pet.objects.filter(users=userId)
+        return context
 
 class UserPetView(generic.DetailView):
     model = CustomUser
