@@ -208,6 +208,7 @@ else:
     DOWNLOAD_URL = STATIC_URL + "media/downloads"
     DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")
 
+#https://docs.djangoproject.com/en/3.0/ref/settings/
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = '/home'

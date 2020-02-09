@@ -5,8 +5,12 @@
   </head>
 <body>
 	{% include "../components/nav-bar.html" %}
+
+    {% if request.user.is_authenticated %}
     <a href="{% url 'pet:edituser' pk=user.id %}"> Click here to update your details! </a>
-  <div class="container" align ='center'>
+    {% endif %}
+
+    <div class="container" align ='center'>
     {% include "../components/card_profile.html" %}
     <h5>
       {% if user.user_type == 'S' %}
