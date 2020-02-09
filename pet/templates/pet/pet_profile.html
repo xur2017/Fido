@@ -20,6 +20,11 @@
       <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
       <li class="list-group-item"> Status: {{ pet.status }} </li>
       <li class="list-group-item"> Description: {{ pet.description }} </li>
+      <li class="list-group-item"> Shelter:
+                                            {% for u in pet.users.all %}
+                                              <a href="{% url 'pet:user_profile' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
+                                            {% endfor %}
+      </li>
     </ul>
     
     <h5> List of Photos Associated: </h5>
