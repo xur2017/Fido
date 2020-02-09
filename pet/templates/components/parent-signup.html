@@ -16,32 +16,31 @@
 	<h3>Sign up</h3>
 	<form action="{% url 'pet:createuser' %}" method="POST" class="needs-validation" novalidate>
 		{% csrf_token %}
-		<div class="form-group" >
+			<input type="hidden" name="user_type" value="P"/>
 			<div class="form-row">
-				<input type="hidden" name="user_type" value="P"/>
-				<input type="text" class="form-control col" placeholder="First Name*" name="first_name" required>
-				<input type="text" class="form-control col" placeholder="Last Name*" name="last_name" required>
-			</div>
+      <div class="col-md-6"><input type="text" class="form-control" placeholder="First Name*" name="first_name" required></div>
+			<div class="col-md-6"><input type="text" class="form-control" placeholder="Last Name*" name="last_name" required></div>
+      </div>
 			<input type="text" class="form-control" placeholder="Username*" id="username" name="username" required>
 			<input type="email" class="form-control" placeholder="Email address*" id="email" name="email" required>
 			<input type="text" class="form-control" placeholder="Phone number" id="phone" name="phone_number">
-		</div>
-		<div class="form-group">
-			<label for="address">Address:</label>
-			<div class="row">
-				<input type="text" class="form-control col" placeholder="Street number" name="street_number">
-				<input type="text" class="form-control col" placeholder="Street name" name="street_name">
-			</div>
+
+			<h5>Address:</h5>
+      <div class="form-row">
+			<div class="col-md-6"><input type="text" class="form-control" placeholder="Street number" name="street_number"></div>
+			<div class="col-md-6"><input type="text" class="form-control" placeholder="Street name" name="street_name"></div>
+      </div>
 			<input type="text" class="form-control" placeholder="Apartment/Suite" name="suite">
 			<input type="text" class="form-control" placeholder="City" name="city">
 			<input type="text" class="form-control" placeholder="State" name="state">
 			<input type="text" class="form-control" placeholder="Zipcode" name="zip">
-		</div>
-		<label for="password">Password:</label>
-		<div class="form-group row">
-			<input type="password" class="form-control col" placeholder="Enter password*" id="password" name="password" required>
-			<input type="password" class="form-control col" placeholder="Re-enter password*" id="password_confirm" name="password_confirm" required>
-		</div>
+
+    	<h5>Password:</h5>
+      <div class="form-row">
+			<div class="col-md-6"><input type="password" class="form-control" placeholder="Enter password*" id="password" name="password" required></div>
+			<div class="col-md-6"><input type="password" class="form-control" placeholder="Re-enter password*" id="password_confirm" name="password_confirm" required></div>
+      </div>
+      <br>
 		<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 	</form>
 
