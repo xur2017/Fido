@@ -178,8 +178,8 @@ class UserEdit(generic.UpdateView):
             raise Http404
 
 @login_required
-def home(request):
-    return render(request, 'registration/home.html')
+def complete(request):
+    return render(request, 'registration/complete.html')
 #1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
 #2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
 #3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
