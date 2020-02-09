@@ -8,40 +8,53 @@
 <body>
   {% include "../components/nav-bar.html" %}
   <div class="container p-5">
-    <div class="d-flex justify-content-center">
-      {% block content %}
-        {% if form.errors %}
-          {{ form.errors }}
-        {% endif %}
+    
+    {% block content %}
 
-        {# if next #}
-          {% if request.user.is_authenticated %}
-            <!--p>Your account doesn't have access to this page. To proceed,
-            please login with an account that has access.</p-->
-            <p>You already seem to be logged in, is this not your account? Click here to <a href="{% url 'logout' %}">Log Out.</a></p>
-          {% else %}
-            <!--p>Please login to see this page.</p-->
-          {# endif #}
-        {# endif #}
-        <div class="container p-5">
-          <div class="row-md-12 mx-auto" align="center" style="max-width:500px">
-            {% load crispy_forms_tags %}
-            <h1>Login Page</h1>
-            <form method="post" action="{% url 'login' %}">
-              {% csrf_token %}
-              {{ form|crispy }}
-              <input type="submit" value="login" class="btn btn-primary" />
-              <input type="hidden" name="next" value="{{ next }}" />
-            </form>
+    {% if form.errors %}
+      {{ form.errors }}
+    {% endif %}
 
-            {# Assumes you setup the password_reset view in your URLconf #}
-            <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
-          </div>
-          <div class="col"></div>
-        </div>    
-        {% endif %}
-      {% endblock %}
-    </div>
+    {% if next %}
+      {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed, 
+        please login with an account that has access.</p>
+      {% else %}
+        <p>Please login to see this page.</p>
+      {% endif %}
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <p>You already seem to be logged in, is this not your account? 
+        Click here to <a href="{% url 'logout' %}">Log Out.</a>
+    {% else %}
+      <div class="d-flex justify-content-center">
+        <h1>Login Page</h1>
+      </div>
+      <div class="d-flex justify-content-center">
+        {% load crispy_forms_tags %}
+        <form method="post" action="{% url 'login' %}">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <input type="submit" value="login" class="btn btn-primary" />
+          <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+      </div>
+      <div class="d-flex justify-content-center">
+        {# Assumes you setup the password_reset view in your URLconf #}
+        <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+      </div>
+      <div class="d-flex justify-content-center">
+        <h2>Or log in with: </h2>
+      </div>
+      <div class="d-flex justify-content-center">
+        <a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
+        <a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
+        <a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
+      </div>
+    {% endif %}
+
+  {% endblock %}
   </div>
   {%include "../components/footer.html"%}
 </body>
