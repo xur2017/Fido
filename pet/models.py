@@ -26,6 +26,10 @@ class CustomUser(AbstractUser):
     document = models.FileField(upload_to='documents/', blank=True)
     profilePic = models.ImageField(upload_to='userPics/', blank=True)
 
+    #Automatically track date
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+
     def __str__(self):
         return self.username
 
@@ -130,6 +134,10 @@ class Pet(models.Model):
     status = models.CharField(max_length=40, blank=True)
     description = models.CharField(max_length=200, blank=True)
 
+    #Automatically track date
+    created_at = models.DateField(auto_now_add=True)
+    updated_at = models.DateField(auto_now=True)
+    
     def __str__(self):
         return self.name
 

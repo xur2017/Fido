@@ -8,4 +8,5 @@ class PetFilter(django_filters.FilterSet):
                   'pet_type': ['exact'],
                   'age': ['gte', 'lte'],
                   'breed': ['exact'],
-                  'sex': ['exact'], }
+                  'sex': ['exact'], 
+                  'updated_at': ['gte', 'lte'],}

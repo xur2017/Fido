@@ -20,6 +20,7 @@
             </div>
             {{ filter.form.breed | as_crispy_field }}
             {{ filter.form.sex | as_crispy_field }}
+            {{ filter.form.updated_at__gte | as_crispy_field }}
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
       </div>
@@ -32,5 +33,10 @@
         {% endfor %}
     </div>
   </div>
+  
+  <script>
+    var element1 = document.querySelector("label[for=id_updated_at__gte]");
+    element1.innerHTML = "Updated date (format: 2/2/2020) is greater than or equal to";
+  </script
   </body>
 </html>
