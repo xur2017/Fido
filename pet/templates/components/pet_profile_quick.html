@@ -25,8 +25,12 @@
 			<!--img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;"-->
 			<div class="card-body text-center">
 				{% if obj.picture_set.all %}
-					{% for petpic in obj.picture_set.all %}
+					{% for petpic in obj.picture_set.all|slice:":1" %}
+						{% if petpic.photo.url %}
 						<img src="{{ petpic.photo.url }}" class="img-thumbnail">
+						{% else %}
+						<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail">
+						{% endif %}
 					{% endfor %}
 				{% else %}
 					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail">
@@ -34,7 +38,17 @@
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
 				<p>{{ obj.get_availability_display }}</p>
-		    	<button type="button" class="btn btn-primary" href="#">Add</button>
+
+				{% if request.user.is_authenticated %}
+					{% if obj.users.all %}
+						{% for u in obj.users.all|slice:":1" %}
+							{% if u.id == request.user.id %}
+								<a class="btn btn-primary" href="{% url 'pet:editpet' obj.id %}" role="button">Edit</a>
+								<a class="btn btn-primary" href="{% url 'pet:petpic' obj.id %}" role="button">Add Photo</a>
+							{% endif %}
+						{% endfor %}
+					{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
