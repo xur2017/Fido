@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    	{% include "../components/style.html" %}
-
+  {% include "../components/style.html" %}
 </head>
 <body>
-	{% include "../components/nav-bar.html" %}
+  {% include "../components/nav-bar.html" %}
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+      PET PARENT
+      <br><br>
+      You are logged in as {{ user.username }}.
+      <br><br>
+      <a href="{% url 'logout' %}">Logout</a>
+      <br><a href="{% url 'pet:index' %}">Home</a>
+    </div>
+  </div>
 
-    PET PARENT
-    <br><br>
-    You are logged in as {{ user.username }}.
-    <br><br>
-    <a href="{% url 'logout' %}">Logout</a>
-    <br><a href="{% url 'pet:index' %}">Home</a>
-
-   {%include "../components/footer.html"%}
+{%include "../components/footer.html"%}
 
 </body>
 </html>
