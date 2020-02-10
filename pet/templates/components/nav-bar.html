@@ -32,7 +32,7 @@
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 					<span class="fa fa-user-plus"></span><b>Shelter</b>
 				</a>
-				<div class="dropdown-menu">
+				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" href="{% url 'pet:userdetail' user.id %}">Account</a>
 					<a class="dropdown-item" href="{% url 'pet:edituser' user.id %}">Settings</a>
 					<a class="dropdown-item" href="{% url 'pet:createpet' %}">Add a Pet</a>
@@ -54,7 +54,7 @@
 				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
 					<span class="fa fa-user-plus"></span><b>Parent</b>
 				</a>
-				<div class="dropdown-menu">
+				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" href="{% url 'pet:userdetail' user.id %}">Account</a>
 					<a class="dropdown-item" href="{% url 'pet:edituser' user.id %}">Settings</a>
 					<div class="dropdown-divider"></div>
