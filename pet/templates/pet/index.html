@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+	<title>Main Page</title>
 	{% include "../components/style.html" %}
 </head>
 <body>
@@ -53,6 +54,20 @@
 		</script>
 
 		<hr style="width:50%;">
+
+		{% if request.user.is_authenticated %}
+		<h1> Welcome back!</h1>
+		<div class="row ">
+			<ul class="list-group mx-auto">
+			    <a href="{% url 'pet:createpet' %}" class="list-group-item">Click here to add a pet profile!</a>
+			    <a href="{% url 'pet:createuser' %}" class="list-group-item">Click here to add a user!</a>
+			    <a href="{% url 'login' %}" class="list-group-item">Click here to login!</a>
+			    <a href="{% url 'logout' %}" class="list-group-item">Click here to logout!</a>
+			    <a href="{% url 'pet:profile' %}" class="list-group-item">Click here to go to your profile!</a>
+				<a href="{% url 'pet:petall' %}" class="list-group-item">Click here to browse all pets!</a>
+			</ul>
+		</div>
+		{% else %}
 		<h1> Join us!</h1>
 		<div class="row">
 		    <div class="col-md-2" align="center">
@@ -69,20 +84,19 @@
 		    <div class="col-md-2" align="center">
 			</div>
 		</div>
+		{% endif %}
 	</div>
 
-    <a href="{% url 'pet:createpet' %}">Click here to add a pet profile!</a>
-    <br>
-    <a href="{% url 'pet:createuser' %}">Click here to add a user!</a>
-    <br>
-    <a href="{% url 'login' %}">Click here to login!</a>
-	<br>
-    <a href="{% url 'logout' %}">Click here to logout!</a>
-    <br>
-    <a href="{% url 'pet:profile' %}">Click here to go to your profile!</a>
-	<br>
-	<a href="{% url 'pet:petall' %}">Click here to browse all pets!</a>
-
+	<a href="#hidden" class="btn btn-primary" data-toggle="collapse">.</a>
+		<div id="hidden" class="collapse">
+			<a href="{% url 'pet:createpet' %}" class="list-group-item">Click here to add a pet profile!</a>
+			<a href="{% url 'pet:createuser' %}" class="list-group-item">Click here to add a user!</a>
+			<a href="{% url 'login' %}" class="list-group-item">Click here to login!</a>
+			<a href="{% url 'logout' %}" class="list-group-item">Click here to logout!</a>
+			<a href="{% url 'pet:profile' %}" class="list-group-item">Click here to go to your profile!</a>
+			<a href="{% url 'pet:petall' %}" class="list-group-item">Click here to browse all pets!</a>
+		</div>
+	</div>
    <!-- -->
    {%include "../components/footer.html"%}
   </body>

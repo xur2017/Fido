@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    	{% include "../components/style.html" %}
-
+	<title>Logged out</title>
+	{% include "../components/style.html" %}
 </head>
 <body>
 	{% include "../components/nav-bar.html" %}
-    {% block content %}
-    <p>Logged out!</p>
-    <a href="{% url 'login'%}">Click here to login again.</a>
-    {% endblock %}
-
-   {%include "../components/footer.html"%}
-
+	<div class="container p-5">
+	  <div class="d-flex justify-content-center">
+	    {% block content %}
+	    <h5>Logged out successfully!</h5>
+	  </div>
+	  <div class="d-flex justify-content-center">
+	    <span> Click here to <a href="{% url 'login'%}">Sign in</a>.</span>
+	  </div>
+	  <div class="d-flex justify-content-center">
+	    <span> Or, click here to return to the <a href="{% url 'pet:index'%}"> Main</a> page.</span>
+	    {% endblock %}
+		</div>
+	</div>
+	{%include "../components/footer.html"%}
 </body>
 </html>

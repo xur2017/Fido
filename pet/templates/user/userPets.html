@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>User Pets</title>
   {% include "../components/style.html"%}
 </head>
 <body>
-
   {% include "../components/nav-bar.html"%}
-  Viewing pets for: {{ customuser.username }} ( {{ customuser.get_user_type_display }} )
-<br>
-  <br>List of Pets Associated:
-
-    <div class="row" align ="center">
-      {% for obj in pets %}
-        {% include "../components/pet_profile_quick.html"%}
-      {% endfor %}
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+      <p>Viewing pets for: {{ customuser.username }} ( {{ customuser.get_user_type_display }} ) </p>
     </div>
+    <div class="d-flex justify-content-center">
+      <h2>List of Pets Associated</h2>
+    </div>
+  </div>
+  <div class="row" align ="center">
+    {% for obj in pets %}
+      {% include "../components/pet_profile_quick.html"%}
+    {% endfor %}
+  </div>
 
    {%include "../components/footer.html"%}
 

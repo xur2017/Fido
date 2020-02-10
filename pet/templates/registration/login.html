@@ -2,8 +2,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  	{% include "../components/style.html" %}
-
+  {% include "../components/style.html" %}
+  <title>Login Page</title>
 </head>
 <body>
   {% include "../components/nav-bar.html" %}
@@ -11,9 +11,10 @@
     
     {% block content %}
 
-    {% if form.errors %}
-      {{ form.errors }}
-    {% endif %}
+    {# commenting out for now as errors also appear below when login fails#}
+    {# if form.errors #}
+      {# form.errors #}
+    {# endif #}
 
     {% if next %}
       {% if user.is_authenticated %}

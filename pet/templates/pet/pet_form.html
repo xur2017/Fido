@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>Add Pet</title>
     	{% include "../components/style.html" %}
   </head>
   <body>
@@ -10,7 +10,7 @@
       <div class="d-flex justify-content-center">
         <h1>Create Pet Page</h1>
       </div>
-      <div class="d-flex justify-content-center">
+      <div class="row mx-auto" style="max-width:500px">
         <form  method="post">
           {% load crispy_forms_tags %}
           {% csrf_token %}
@@ -33,15 +33,6 @@
           {{ form.description | as_crispy_field }}
           <button  type="submit"  class="btn btn-primary">Submit</button>
         </form>
-      </div>
-      <hr style="width:50%">
-      <div class="d-flex justify-content-center">
-        <h2>Or, log in with: </h2>
-      </div>
-      <div class="d-flex justify-content-center">
-        <a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
-        <a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
-        <a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
       </div>
     </div>
     {%include "../components/footer.html"%}

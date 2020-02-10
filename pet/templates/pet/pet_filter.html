@@ -1,13 +1,14 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <title>Pet Search</title>
     {% include "../components/style.html" %}
   </head>
   <body>
     {% include "../components/nav-bar.html" %}
 
-    <div class="container-fluid" align="center">
-      <div class="row"  style = "max-width:35%;">
+    <div class="container p-5">
+      <div class="row mx-auto"  style = "max-width:500px">
         <div class="col">
           <h5> Pet Search: </h5>
           {% load crispy_forms_tags %}
@@ -25,18 +26,22 @@
           </form>
       </div>
     </div>
-    <h3>Results</h3>
-    <div class="row" align ="center"> 
-        {% for obj in filter.qs %}
-        <!--<li><a href="{% url 'pet:pet_profile' obj.id %}">Name: {{ obj.name }}, Type: {{ obj.get_pet_type_display }}</a></li>-->
-        {% include "../components/pet_profile_quick.html"%}
-        {% endfor %}
+    <hr style="width:50%">
+    <div class="d-flex justify-content-center">
+      <h3>Results</h3>
     </div>
   </div>
-  
+
+  <div class="row mx-auto">
+    {% for obj in filter.qs %}
+    <!--<li><a href="{% url 'pet:pet_profile' obj.id %}">Name: {{ obj.name }}, Type: {{ obj.get_pet_type_display }}</a></li>-->
+    {% include "../components/pet_profile_quick.html"%}
+    {% endfor %}
+  </div>
+
   <script>
     var element1 = document.querySelector("label[for=id_updated_at__gte]");
     element1.innerHTML = "Updated date (format: 2/2/2020) is greater than or equal to";
-  </script
+  </script>
   </body>
 </html>

@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     {% include "../components/style.html" %}
+    <title>{{ user.username }}</title>
   </head>
 <body>
   {% include "../components/nav-bar.html" %}
@@ -13,6 +14,7 @@
     <div class="d-flex justify-content-center">
       {% include "../components/card_profile.html" %}
     </div>
+    <hr style ="width:50%">
     <div class="d-flex justify-content-center">
       <h3>
         {% if user.user_type == 'S' %}

@@ -1,49 +1,48 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title></title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-    	{% include "../components/style.html" %}
+<head>
+  <title>Create User</title>
+	{% include "../components/style.html" %}
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
 
-  </head>
-  <body>
-  	{% include "../components/nav-bar.html" %}
-
-    <div class="row">
-      <div class="col"></div>
-        <div class="col">
-          {% load crispy_forms_tags %}
-          <h1>Create User Page</h1>
-          <form  method="post" enctype='multipart/form-data'>
-            {% csrf_token %}
-            {{ form.user_type | as_crispy_field }}
-            <div class="form-row">
-            <div class="form-group col-md-6 mb-0">{{ form.first_name | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.last_name | as_crispy_field }}</div>
-            </div>
-            {{ form.email | as_crispy_field }}
-            {{ form.username | as_crispy_field }}
-            <div class="form-row">
-            <div class="form-group col-md-6 mb-0">{{ form.password | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.password_confirm | as_crispy_field }}</div>
-            </div>
-            <div class="form-row">
-            <div class="form-group col-md-6 mb-0">{{ form.phone_number | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.street_number | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.street_name | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.city | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.state | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ form.zip | as_crispy_field }}</div>
-            </div>
-            <button  type="submit"  class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      <div class="col"></div>
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+      <h1>Create User Page</h1>
     </div>
+    <div class="row mx-auto" style="max-width:500px">
+      {% load crispy_forms_tags %}
+      <form  method="post" enctype='multipart/form-data'>
+        {% csrf_token %}
+        <div class="form-row">
+        <div class="form-group col-md-12 mb-0">{{ form.user_type | as_crispy_field }}</div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-6 mb-0">{{ form.first_name | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.last_name | as_crispy_field }}</div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-12 mb-0">{{ form.email | as_crispy_field }}</div>
+        <div class="form-group col-md-12 mb-0">{{ form.username | as_crispy_field }}</div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-6 mb-0">{{ form.password | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.password_confirm | as_crispy_field }}</div>
+        </div>
+        <div class="form-row">
+        <div class="form-group col-md-6 mb-0">{{ form.phone_number | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.street_number | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.street_name | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.city | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.state | as_crispy_field }}</div>
+        <div class="form-group col-md-6 mb-0">{{ form.zip | as_crispy_field }}</div>
+        </div>
+        <button  type="submit"  class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
 
-     {%include "../components/footer.html"%}
-
-  </body>
+  {%include "../components/footer.html"%}
+</body>
 </html>

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    	{% include "../components/style.html" %}
-
+	<title>Account Created</title>
+	{% include "../components/style.html" %}
 </head>
 <body>
 	{% include "../components/nav-bar.html" %}
 
-    You have successfully created a user named: {{ username }}.
-    <br><br>
-    <a href="{% url 'login' %}">Click here to login</a>
-
-   {%include "../components/footer.html"%}
+	<div class="container p-5">
+	  <div class="d-flex justify-content-center">
+		  <span>You have successfully created a user named: <b>{{ username }}</b>. 
+		  	Click here to <a href="{% url 'login' %}">login</a>.</span>
+		</div>
+	</div>
+ {%include "../components/footer.html"%}
 
 </body>
 </html>
