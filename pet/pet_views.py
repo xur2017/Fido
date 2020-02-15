@@ -177,6 +177,9 @@ class PetEdit(generic.UpdateView):
 
 #############################################################################
 # Add/Remove Pet to Favorites
+# Will add or remove pet from a user's (Pet Parent) favorites list
+# Page will reload but not redirect so that this can be used on
+# any screen with pet cards
 #############################################################################
 def addPetFavorite(request, pk):
     if request.user.is_authenticated:
