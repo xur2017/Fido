@@ -18,6 +18,7 @@
 ----------------------------------------------------------------->
 {% load static %}
 
+
 <div class="col-sm m-3">
 	<div class="card" style="width:300px;height:450px;">
 		<div class="card-body text-center">
@@ -41,13 +42,20 @@
 
 				{% if request.user.is_authenticated %}
 					{% if obj.users.all %}
-						{% for u in obj.users.all|slice:":1" %}
-							{% if u.id == request.user.id %}
+						{% for u in obj.users.all %}
+							{% if u.id == request.user.id and u.user_type == 'S' %}
 								<a class="btn btn-primary" href="{% url 'pet:editpet' obj.id %}" role="button">Edit</a>
 								<a class="btn btn-primary" href="{% url 'pet:petpic' obj.id %}" role="button">Add Photo</a>
+							{% elif u.id == request.user.id and u.user_type == 'P' %}
+								<a class="btn btn-danger" href="{% url 'pet:remove_favorite' obj.id %}" role="button">Favorited</a>
 							{% endif %}
 						{% endfor %}
+
+						{% if request.user not in obj.users.all %}
+							<a class="btn btn-secondary" href="{% url 'pet:add_favorite' obj.id %}" role="button">Add Favorite</a>
+						{% endif %}
 					{% endif %}
+
 				{% endif %}
 			</div>
 		</div>

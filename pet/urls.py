@@ -21,6 +21,8 @@ urlpatterns = [
     path('user_profile/<int:pk>/', user_views.UserProfileView.as_view(), name='user_profile'),
     path('pet_filter', pet_views.search, name='pet_filter'),
     path('complete/', user_views.complete, name='complete'), #1
-    ]
+    path('pet/<int:pk>/addfavorite', pet_views.addPetFavorite, name='add_favorite'),
+    path('pet/<int:pk>/removefavorite', pet_views.removePetFavorite, name='remove_favorite')
+]
 #1. https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
 

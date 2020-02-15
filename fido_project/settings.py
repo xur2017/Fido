@@ -98,8 +98,8 @@ DATABASES = {
      }
  }
 
-#Below is used for GCP ONLY
-#https://stackoverflow.com/questions/55657752/django-installing-mysqlclient-error-mysqlclient-1-3-13-or-newer-is-required
+# Below is used for GCP ONLY
+# https://stackoverflow.com/questions/55657752/django-installing-mysqlclient-error-mysqlclient-1-3-13-or-newer-is-required
 # import pymysql  # noqa: 402
 # pymysql.version_info = (1, 3, 13, "final", 0)
 # pymysql.install_as_MySQLdb()
@@ -134,7 +134,7 @@ DATABASES = {
 #             'PASSWORD': 'fidoTest',
 #         }
 #     }
-# #[END db_setup]
+#[END db_setup]
 
 AUTH_USER_MODEL = 'pet.CustomUser'
 # Password validation

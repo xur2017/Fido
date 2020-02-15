@@ -20,16 +20,18 @@
       <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
       <li class="list-group-item"> Status: {{ pet.status }} </li>
       <li class="list-group-item"> Description: {{ pet.description }} </li>
-      <li class="list-group-item"> Created_at: {{ pet.created_at }} </li>
-      <li class="list-group-item"> Updated_at: {{ pet.updated_at }} </li>
       <li class="list-group-item"> Shelter:
                                             {% for u in pet.users.all %}
+                                              {% if u.user_type == 'S' %}
                                               <a href="{% url 'pet:user_profile' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
+                                              {% endif %}
                                             {% endfor %}
+      <li class="list-group-item"> Created on: {{ pet.created_at }} </li>
+      <li class="list-group-item"> Updated on: {{ pet.updated_at }} </li>
       </li>
     </ul>
     
-    <h5> List of Photos Associated: </h5>
+    <h5> List of Photos: </h5>
     {% for obj in picture %}
       <div>
       <p>{{ obj.description }}</p>

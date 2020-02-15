@@ -39,7 +39,7 @@ class PetDetailView(generic.DetailView):
         if self.request.user.is_authenticated:
             obj = super(PetDetailView, self).get_object(*args, **kwargs)
             for u in obj.users.all():
-                if u.id == self.request.user.id:
+                if u.id == self.request.user.id and u.user_type == 'S':
                     return obj
                 else:
                     raise Http404
@@ -98,7 +98,7 @@ class PetImageCreate(CreateView):
         if obj is not None:
             if self.request.user.is_authenticated:
                 for u in obj.users.all():
-                    if u.id == self.request.user.id:
+                    if u.id == self.request.user.id and u.user_type == 'S':
                         initial = super(PetImageCreate, self).get_initial(**kwargs)
                         return initial
                 raise Http404
@@ -169,8 +169,33 @@ class PetEdit(generic.UpdateView):
         obj = super(PetEdit, self).get_object(*args, **kwargs)
         if self.request.user.is_authenticated:
             for u in obj.users.all():
-                if u.id == self.request.user.id:
+                if u.id == self.request.user.id and u.user_type == 'S':
                     return obj
             raise Http404
         else:
             raise Http404
+
+#############################################################################
+# Add/Remove Pet to Favorites
+#############################################################################
+def addPetFavorite(request, pk):
+    if request.user.is_authenticated:
+        if request.user.user_type == 'P':
+            petId = pk
+            pet = Pet.objects.get(id=petId)
+            if pet is not None:
+                pet.users.add(request.user.id)
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                raise Http404
+
+def removePetFavorite(request, pk):
+    if request.user.is_authenticated:
+        if request.user.user_type == 'P':
+            petId = pk
+            pet = Pet.objects.get(id=petId)
+            if pet is not None:
+                pet.users.remove(request.user.id)
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                raise Http404
