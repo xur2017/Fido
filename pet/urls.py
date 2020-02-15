@@ -11,6 +11,7 @@ urlpatterns = [
     path('pet/<int:pk>/', pet_views.PetDetailView.as_view(), name='petdetail'),
     path('pet/<int:pk>/edit', pet_views.PetEdit.as_view(), name='editpet'),
     path('pet/<int:pk>/pic', pet_views.PetImageCreate.as_view(), name='petpic'),
+    path('pet/<int:pk>/delete', pet_views.PetDelete.as_view(), name='deletepet'),
     path('user/', user_views.createUser, name='createuser'),
     path('user/<int:pk>/', user_views.UserDetailView.as_view(), name='userdetail'),
     path('user/<int:pk>/pets', user_views.UserPetView.as_view(), name='userpetsview'),

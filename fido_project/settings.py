@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'social_django', #1
+    'localflavor'
 ]
 
 MIDDLEWARE = [

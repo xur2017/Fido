@@ -3,10 +3,7 @@
   <head>
     {% include "../components/style.html" %}
     <style>
-  img {
-    border-radius: 50%;
-    max-width: 25%;
-  }
+
   </style>
   </head>
 <body>
@@ -14,7 +11,7 @@
 
   <div class="container">
       {% if user.profilePic %}
-    <img src="{{ user.profilePic.url }}" />
+    <img src="{{ user.profilePic.url }}" class="img-thumbnail" style="max-width:300px;max-height:300px"/>
       {% endif %}
     <h5> User Profile: </h5>
     <ul class="list-group">

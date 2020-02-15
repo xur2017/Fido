@@ -18,6 +18,10 @@ from .filters import PetFilter
 def index(request):
     return render(request, 'pet/index.html')
 
+#############################################################################
+# Pet Search Function:
+# Returns a filter of pets per criteria
+#############################################################################
 def search(request):
     pet_list = Pet.objects.all()
     pet_filter = PetFilter(request.GET, queryset=pet_list)
@@ -71,6 +75,7 @@ class PetProfileView(generic.DetailView):
 #############################################################################
 class PetListView(ListView):
     model = Pet
+    ordering = ['-updated_at']
     #paginate_by = 100  # if pagination is desired
 
     def get_context_data(self, **kwargs):
@@ -167,6 +172,25 @@ class PetEdit(generic.UpdateView):
 
     def get_object(self, *args, **kwargs):
         obj = super(PetEdit, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            for u in obj.users.all():
+                if u.id == self.request.user.id and u.user_type == 'S':
+                    return obj
+            raise Http404
+        else:
+            raise Http404
+
+#############################################################################
+# Delete Pet
+# brings up a confirmation screen. If confirm button is clicked,
+# pet is removed from database.
+#############################################################################
+class PetDelete(generic.DeleteView):
+    model = Pet
+    success_url = reverse_lazy('pet:index')
+
+    def get_object(self, *args, **kwargs):
+        obj = super(PetDelete, self).get_object(*args, **kwargs)
         if self.request.user.is_authenticated:
             for u in obj.users.all():
                 if u.id == self.request.user.id and u.user_type == 'S':

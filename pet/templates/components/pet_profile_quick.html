@@ -28,13 +28,13 @@
 				{% if obj.picture_set.all %}
 					{% for petpic in obj.picture_set.all|slice:":1" %}
 						{% if petpic.photo.url %}
-						<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:250px;max-height:250px">
+						<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 						{% else %}
-						<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:250px;max-height:250px">
+						<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 						{% endif %}
 					{% endfor %}
 				{% else %}
-					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail">
+					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 				{% endif %}
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
@@ -44,14 +44,15 @@
 					{% if obj.users.all %}
 						{% for u in obj.users.all %}
 							{% if u.id == request.user.id and u.user_type == 'S' %}
-								<a class="btn btn-primary" href="{% url 'pet:editpet' obj.id %}" role="button">Edit</a>
-								<a class="btn btn-primary" href="{% url 'pet:petpic' obj.id %}" role="button">Add Photo</a>
+								<a class="btn btn-primary btn-sm" href="{% url 'pet:editpet' obj.id %}" role="button">Edit</a>
+								<a class="btn btn-primary btn-sm" href="{% url 'pet:petpic' obj.id %}" role="button">Add Photo</a>
+								<a class="btn btn-danger btn-sm" href="{% url 'pet:deletepet' obj.id %}" role="button">Remove</a>
 							{% elif u.id == request.user.id and u.user_type == 'P' %}
 								<a class="btn btn-danger" href="{% url 'pet:remove_favorite' obj.id %}" role="button">Favorited</a>
 							{% endif %}
 						{% endfor %}
 
-						{% if request.user not in obj.users.all %}
+						{% if request.user not in obj.users.all and request.user.user_type == 'P' %}
 							<a class="btn btn-secondary" href="{% url 'pet:add_favorite' obj.id %}" role="button">Add Favorite</a>
 						{% endif %}
 					{% endif %}

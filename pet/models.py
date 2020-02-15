@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
+from localflavor.us.models import USStateField
+#https://django-localflavor.readthedocs.io/en/latest/#
+
 # Create your models here.
 
 class UserType(models.Model):
@@ -21,7 +24,7 @@ class CustomUser(AbstractUser):
     street_number = models.CharField(max_length=40, blank=True)
     street_name = models.CharField(max_length=40, blank=True)
     city = models.CharField(max_length=40, blank=True)
-    state = models.CharField(max_length=40, blank=True)
+    state = USStateField(null=False, blank=False)
     zip = models.CharField(max_length=40, blank=True)
     document = models.FileField(upload_to='documents/', blank=True)
     profilePic = models.ImageField(upload_to='userPics/', blank=True)
@@ -46,7 +49,7 @@ class Picture(models.Model):
         return self.description
 
     def get_absolute_url(self):
-        return "/pet/%i/" % self.pet.id
+        return "/pet_profile/%i/" % self.pet.id
 
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
@@ -142,6 +145,6 @@ class Pet(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return "/pet/%i/" % self.id
+        return "/pet_profile/%i/" % self.id
     
 
