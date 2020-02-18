@@ -7,70 +7,73 @@
   </head>
 <body>
 	{% include "../components/nav-bar.html" %}
-  <div class="container">
-
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+      <h5> Pet Profile: </h5>
+    </div>
+    <div class="d-flex justify-content-center">
     {% if request.user.is_authenticated %}
       {% if pet.users.all %}
         {% if request.user in pet.users.all and request.user.user_type == 'S' %}
           <a class="btn btn-outline-primary" href="{% url 'pet:editpet' pet.id %}" role="button">Edit</a>
-	      <a class="btn btn-outline-primary" href="{% url 'pet:petpic' pet.id %}" role="button">Add Photo</a>
+          <a class="btn btn-outline-primary" href="{% url 'pet:petpic' pet.id %}" role="button">Add Photo</a>
           <a class="btn btn-outline-danger" href="{% url 'pet:deletepet' pet.id %}" role="button">Remove</a>
         {% endif %}
       {% endif %}
     {% endif %}
-
-    <h5> Pet Profile: </h5>
+    </div>
+    <div class="d-flex justify-content-center"> 
     {% if picture is not None %}
       {% for obj in picture|slice:":1" %}
-      <img src="{{ obj.photo.url }}" class="img-thumbnail" style="max-width:250px;max-height:250px" />
+      <img src="{{ obj.photo.url }}" class="img-thumbnail" style="max-width:500px;max-height:500px" />
       {% endfor %}
     {% endif %}
-
-
-    <ul class="list-group">
-      <li class="list-group-item"> Name: {{ pet.name }}
-
-    {% if request.user.is_authenticated %}
-      {% if pet.users.all %}
-        {% if request.user in pet.users.all and request.user.user_type == 'P' %}
-          <img src="{%static 'img/fav-button.png'%}" alt="logo" style="width:30px;transform:scaleX(-1);">
-        {% endif %}
-      {% endif %}
-    {% endif %}
-
-      </li>
-      <li class="list-group-item"> Type: {{ pet.get_pet_type_display }} </li>
-      <li class="list-group-item"> Age: {{ pet.age|floatformat }} </li>
-      <li class="list-group-item"> Sex: {{ pet.get_sex_display }} </li>
-      <li class="list-group-item"> Breed: {{ pet.get_breed_display }} </li>
-      <li class="list-group-item"> Availability: {{ pet.get_availability_display }} </li>
-      <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
-      <li class="list-group-item"> Status: {{ pet.status }} </li>
-      <li class="list-group-item"> Description: {{ pet.description }} </li>
-      <li class="list-group-item"> Shelter:
-                                            {% for u in pet.users.all %}
-                                              {% if u.user_type == 'S' %}
-                                              <a href="{% url 'pet:user_profile' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
-                                              {% endif %}
-                                            {% endfor %}
-      <li class="list-group-item"> Created on: {{ pet.created_at }} </li>
-      <li class="list-group-item"> Updated on: {{ pet.updated_at }} </li>
-      </li>
-    </ul>
-    
-    <h5> More Photos: </h5>
-     {% if picture is not None %}
-    {% for obj in picture|slice:"1:" %}
-      <div>
-          {% if obj.photo %}
-      <p>{{ obj.description }}</p>
-      <img src="{{ obj.photo.url }}" class="img-fluid" style="max-width:250px;max-height:250px" />
+    </div>
+    <div class="d-flex justify-content-center">
+      <ul class="list-group">
+        <li class="list-group-item"> Name: {{ pet.name }}
+        {% if request.user.is_authenticated %}
+          {% if pet.users.all %}
+            {% if request.user in pet.users.all and request.user.user_type == 'P' %}
+              <img src="{%static 'img/fav-button.png'%}" alt="logo" style="width:30px;transform:scaleX(-1);">
+            {% endif %}
           {% endif %}
-      </div>
-    {% endfor %}
-     {% endif %}
-  </div>
-   {%include "../components/footer.html"%}
+        {% endif %}
 
+        </li>
+        <li class="list-group-item"> Type: {{ pet.get_pet_type_display }} </li>
+        <li class="list-group-item"> Age: {{ pet.age|floatformat }} </li>
+        <li class="list-group-item"> Sex: {{ pet.get_sex_display }} </li>
+        <li class="list-group-item"> Breed: {{ pet.get_breed_display }} </li>
+        <li class="list-group-item"> Availability: {{ pet.get_availability_display }} </li>
+        <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
+        <li class="list-group-item"> Status: {{ pet.status }} </li>
+        <li class="list-group-item"> Description: {{ pet.description }} </li>
+        <li class="list-group-item"> Shelter: 
+                                          {% for u in pet.users.all %} {% if u.user_type == 'S' %}
+                                                <a href="{% url 'pet:user_profile' u.id %}">{{ u.first_name }} {{ u.last_name }}</a>
+                                              {% endif %} {% endfor %}
+        <li class="list-group-item"> Created on: {{ pet.created_at }} </li>
+        <li class="list-group-item"> Updated on: {{ pet.updated_at }} </li>
+        </li>
+      </ul>
+    </div>
+    <hr style="width:50%">
+    <div class="d-flex justify-content-center">
+      {% if picture is not None %}
+        <h5> More Photos: </h5>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row mx-auto">
+    {% if picture is not None %}
+    {% for obj in picture|slice:"1:" %}
+      {% if obj.photo %}
+        {% include "../components/image_card.html" %}
+      {% endif %}
+    {% endfor %}
+    {% endif %}
+  </div>
+  {%include "../components/footer.html"%}
 </body>
 </html>
