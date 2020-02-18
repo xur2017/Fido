@@ -23,7 +23,9 @@ urlpatterns = [
     path('pet_filter', pet_views.search, name='pet_filter'),
     path('complete/', user_views.complete, name='complete'), #1
     path('pet/<int:pk>/addfavorite', pet_views.addPetFavorite, name='add_favorite'),
-    path('pet/<int:pk>/removefavorite', pet_views.removePetFavorite, name='remove_favorite')
+    path('pet/<int:pk>/removefavorite', pet_views.removePetFavorite, name='remove_favorite'),
+    path('pet/about', pet_views.about, name='about'),
+    path('pet/services', pet_views.services, name='services'),
+    #path('pet/volunteer', pet_views.volunteer, name='volunteer'),
 ]
-#1. https://simpleisbetterthancomplex.com/tutorial/2016/06/27/how-to-use-djangos-built-in-login-system.html
 

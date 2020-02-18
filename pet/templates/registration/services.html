@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include "../components/style.html" %}
+  <title>Services</title>
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
+  <div class="container p-5">
+    <div class="d-flex justify-content-center">
+    	<h1> Our Services </h1>
+    </div>
+    <div class="row">
+    	{% load static %}
+    	<div class="col-sm-2"></div>
+    	<div class="col-sm-8" align ="center">
+    	<img src="{% static 'img/hrtcenter-icon.png'%}" alt="profile-icon" style="width:300px;height:250px; filter:hue-rotate(120deg);">
+    	<h5>Finding Fido is all about finding <i>your Fido</i>. Our product is a responsive web application aimed at uniting potential pet parents with animals in shelters who match their lifestyle needs, and  providing a way for shelters to display their adoptable animals in a fun, social way.</h5>
+    	<img src="{% static 'img/hrthome-icon.png'%}" alt="profile-icon" style="width:250px;height:200px; filter:hue-rotate(120deg);">
+    	</div>
+    <div class="col-sm-2"></div>
+  </div>
+ {%include "../components/footer.html"%}
+</body>
+</html>

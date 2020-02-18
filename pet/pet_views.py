@@ -28,6 +28,19 @@ def search(request):
     return render(request, 'pet/pet_filter.html', {'filter': pet_filter})
 
 #############################################################################
+# About Team related Functions:
+# Returns page for team overview
+#############################################################################
+def about(request):
+    return render(request, 'registration/about.html')
+
+def services(request):
+    return render(request, 'registration/services.html')
+
+#def volunteer(request):
+#    return render(request, 'registration/volunteer.html')
+
+#############################################################################
 # Pet View Functions:
 # View for all pet information, including pictures
 # For shelter, not allowed for pet parent
