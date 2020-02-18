@@ -1,6 +1,7 @@
 from django.urls import path, include
 
 from . import pet_views, user_views
+from . import feeds
 
 app_name = 'pet'
 
@@ -27,5 +28,7 @@ urlpatterns = [
     path('pet/about', pet_views.about, name='about'),
     path('pet/services', pet_views.services, name='services'),
     #path('pet/volunteer', pet_views.volunteer, name='volunteer'),
+    path('rss_feed/', pet_views.rss_feed, name='rss_feed'),
+    path('feed1/', feeds.LatestPetUpdates(), name='feed1'),
 ]
 

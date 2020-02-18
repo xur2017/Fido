@@ -1,0 +1,7 @@
+
+{% for entry in feed.entries %}
+    <li>
+      <a href="{{entry.link}}">{{entry.title}}</a>
+      <p>{{entry.description}}</p>
+    </li>
+{% endfor %}

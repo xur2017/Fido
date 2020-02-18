@@ -13,10 +13,16 @@ from django.utils.decorators import method_decorator
 
 from .models import Pet, Picture
 from .filters import PetFilter
+from . import feeds
+import feedparser
 
 # Create your views here.
 def index(request):
     return render(request, 'pet/index.html')
+
+def rss_feed(request):
+    feed = feedparser.parse( 'http://' + request.get_host() + '/feed1' )
+    return render(request, 'pet/rss_feed.html', {'feed': feed})
 
 #############################################################################
 # Pet Search Function:
