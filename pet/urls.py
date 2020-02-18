@@ -30,5 +30,7 @@ urlpatterns = [
     #path('pet/volunteer', pet_views.volunteer, name='volunteer'),
     path('rss_feed/', pet_views.rss_feed, name='rss_feed'),
     path('feed1/', feeds.LatestPetUpdates(), name='feed1'),
+    path('email/', pet_views.emailView, name='email'),
+    path('success/', pet_views.successView, name='success'),
 ]
 

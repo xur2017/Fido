@@ -10,18 +10,41 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.mail import send_mail, BadHeaderError
+import feedparser
 
 from .models import Pet, Picture
 from .filters import PetFilter
 from . import feeds
-import feedparser
+from .forms import EmailContactForm
 
 # Create your views here.
 def index(request):
     return render(request, 'pet/index.html')
 
+def emailView(request):
+    if request.method == 'GET':
+        form = EmailContactForm()
+    else:
+        form = EmailContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            to_email = form.cleaned_data['to_email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(subject, message, 'admin@example.com', [to_email])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            #return redirect( 'http://' + request.get_host() + '/success' )
+            return redirect( reverse_lazy('pet:success') )
+    return render(request, "pet/email.html", {'form': form})
+
+def successView(request):
+    return HttpResponse('Success.')
+
 def rss_feed(request):
-    feed = feedparser.parse( 'http://' + request.get_host() + '/feed1' )
+    feed_url = 'http://' + request.get_host() + '/feed1'
+    feed = feedparser.parse( feed_url )
     return render(request, 'pet/rss_feed.html', {'feed': feed})
 
 #############################################################################
