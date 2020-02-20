@@ -42,6 +42,22 @@ def emailView(request):
 def successView(request):
     return HttpResponse('Success.')
 
+class FavListView(ListView):
+    model = Pet
+    ordering = ['-updated_at']
+    #paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+    
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Pet.objects.filter(users__pk = self.request.user.id)
+        else:
+            raise Http404
+
 #############################################################################
 # Pet Search Function:
 # Returns a filter of pets per criteria

@@ -8,7 +8,7 @@ class LatestPetUpdates(Feed):
     description = 'latest pet updates'
     
     def items(self):
-        return Pet.objects.order_by('-created_at')[:2]
+        return Pet.objects.order_by('-created_at')[:10]
         
     def item_title(self, item):
         list1 = [item.name, item.get_pet_type_display(), item.get_breed_display(), item.get_sex_display(), str(item.age)]

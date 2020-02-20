@@ -30,6 +30,7 @@ urlpatterns = [
     #path('pet/volunteer', pet_views.volunteer, name='volunteer'),
     
     path('feed/', feeds.LatestPetUpdates(), name='feed'),
+    path('pet/favs', pet_views.FavListView.as_view(), name='petfavs'),
     path('email/', pet_views.emailView, name='email'),
     path('success/', pet_views.successView, name='success'),
 ]
