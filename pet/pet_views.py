@@ -10,13 +10,53 @@ from django.utils import timezone
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.core.mail import send_mail, BadHeaderError
+import feedparser
 
 from .models import Pet, Picture
 from .filters import PetFilter
+from . import feeds
+from .forms import EmailContactForm
 
 # Create your views here.
 def index(request):
     return render(request, 'pet/index.html')
+
+def emailView(request):
+    if request.method == 'GET':
+        form = EmailContactForm()
+    else:
+        form = EmailContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            to_email = form.cleaned_data['to_email']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(subject, message, 'admin@example.com', [to_email])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            #return redirect( 'http://' + request.get_host() + '/success' )
+            return redirect( reverse_lazy('pet:success') )
+    return render(request, "pet/email.html", {'form': form})
+
+def successView(request):
+    return HttpResponse('Success.')
+
+class FavListView(ListView):
+    model = Pet
+    ordering = ['-updated_at']
+    #paginate_by = 100  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
+    
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Pet.objects.filter(users__pk = self.request.user.id)
+        else:
+            raise Http404
 
 #############################################################################
 # Pet Search Function:

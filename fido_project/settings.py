@@ -226,3 +226,4 @@ except ImportError:
 #3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
 #4. https://dev.to/codetricity/how-to-set-up-django-with-central-oauth2-login-1co
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

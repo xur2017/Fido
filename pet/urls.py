@@ -1,6 +1,7 @@
 from django.urls import path, include
 
 from . import pet_views, user_views
+from . import feeds
 
 app_name = 'pet'
 
@@ -27,5 +28,10 @@ urlpatterns = [
     path('pet/about', pet_views.about, name='about'),
     path('pet/services', pet_views.services, name='services'),
     #path('pet/volunteer', pet_views.volunteer, name='volunteer'),
+    
+    path('feed/', feeds.LatestPetUpdates(), name='feed'),
+    path('pet/favs', pet_views.FavListView.as_view(), name='petfavs'),
+    path('email/', pet_views.emailView, name='email'),
+    path('success/', pet_views.successView, name='success'),
 ]
 
