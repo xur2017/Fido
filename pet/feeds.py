@@ -3,15 +3,18 @@ from django.contrib.syndication.views import Feed
 from .models import Pet
 
 class LatestPetUpdates(Feed):
-    title = 'pet updates'
-    link = '/feed'
-    description = 'pet updates'
+    title = 'latest pet updates'
+    link = '/feed/'
+    description = 'latest pet updates'
     
     def items(self):
         return Pet.objects.order_by('-created_at')[:2]
         
     def item_title(self, item):
-        return item.name
-    
+        list1 = [item.name, item.get_pet_type_display(), item.get_breed_display(), item.get_sex_display(), str(item.age)]
+        s1 = " # "
+        s1 = s1.join(list1) 
+        return s1
     def item_description(self, item):
-        return item.description
+        s1 = item.description
+        return s1

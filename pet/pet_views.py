@@ -42,11 +42,6 @@ def emailView(request):
 def successView(request):
     return HttpResponse('Success.')
 
-def rss_feed(request):
-    feed_url = 'http://' + request.get_host() + '/feed1'
-    feed = feedparser.parse( feed_url )
-    return render(request, 'pet/rss_feed.html', {'feed': feed})
-
 #############################################################################
 # Pet Search Function:
 # Returns a filter of pets per criteria
