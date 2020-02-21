@@ -9,6 +9,18 @@
 <body>
 	<!-- Title page navigation -->
 	{% include "../components/nav-bar.html" %}
+
+	{% if messages %}
+    	{% for message in messages %}
+		<div class="alert alert-danger alert-dismissible fade show" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+			{{ message }}
+		</div>
+	    {% endfor %}
+	{% endif %}
+
 	<!--Page-->
 	<div class="container-fluid my-3" align="center">
 		<h1>

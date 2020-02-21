@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import Pet
 from django.views.generic.edit import CreateView
 from django.views import generic
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -28,3 +29,8 @@ class PetCreate(CreateView):
 
 def createPet(request):
     return PetCreate.as_view()(request)
+
+def view_404(request, exception=None):
+	messages.add_message(request,messages.ERROR,
+		'You do not have the correct level of permission and/or access.',fail_silently=True)
+	return HttpResponseRedirect('/')

@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail, BadHeaderError
 import feedparser
+from django.contrib import messages
 
 from .models import Pet, Picture
 from .filters import PetFilter
@@ -201,8 +202,9 @@ def createPet(request):
             if request.user.user_type == 'S':
                 return PetCreate.as_view()(request)
             else:
-                output = 'You must be a Shelter user to create a pet!<br>'
-                return HttpResponse(output)
+                messages.add_message(request,messages.WARNING,
+                    'You must be a Shelter to create a pet!',fail_silently=True)
+                return HttpResponseRedirect('/')
         else:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 

@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views #1
 
+handler404 = 'pet.views.view_404'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
