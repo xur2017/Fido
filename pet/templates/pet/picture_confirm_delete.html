@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    {% include "../components/style.html" %}
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
+
+<form method="post">{% csrf_token %}
+    <p><h5> Are you sure you want to remove "{{ object }}"?</h5></p>
+    <p> ***Once you remove a picture, it cannot be restored!***</p>
+    <button  type="submit"  class="btn btn-danger" value="Confirm">Confirm</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <a class="btn btn-outline-primary " href="{{request.META.HTTP_REFERER}}" role="button">Go back</a>
+</form>
+
+   {%include "../components/footer.html"%}
+
+</body>
+</html>

@@ -49,7 +49,7 @@ class Picture(models.Model):
         return self.description
 
     def get_absolute_url(self):
-        return "/pet_profile/%i/" % self.pet.id
+        return "/pic/%i" % self.id
 
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices

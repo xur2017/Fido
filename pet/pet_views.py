@@ -13,6 +13,8 @@ from django.utils.decorators import method_decorator
 from django.core.mail import send_mail, BadHeaderError
 import feedparser
 from django.contrib import messages
+from PIL import Image
+import time
 
 from .models import Pet, Picture
 from .filters import PetFilter
@@ -146,6 +148,20 @@ class PetImageView(generic.DetailView):
     model = Picture
     template_name = 'pet/petdetail.html'
 
+#View to allow rotation
+class PetPicView(generic.DetailView):
+    model = Picture
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        pic = Picture.objects.get(id=kwargs['pk'])
+        if pic is not None:
+            pet = Pet.objects.get(id=pic.pet.id)
+            if pet is not None:
+                if isShelterOwner(self.request, pet.id):
+                    return super(PetPicView, self).dispatch(*args, **kwargs)
+        raise Http404
+
 #CreateView for Pet Images
 class PetImageCreate(CreateView):
     model = Picture
@@ -169,6 +185,87 @@ class PetImageCreate(CreateView):
         pet = Pet(id=petId)
         form.instance.pet = pet
         return super(PetImageCreate, self).form_valid(form)
+
+#UpdateView for Pet Images
+class PetImageEdit(generic.UpdateView):
+    model = Picture
+    fields = ['description', 'photo']
+    template_name_suffix = '_update_form'
+
+    #https://stackoverflow.com/questions/44935522/how-to-use-login-reuqired-on-update-create-delete-views-in-django
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(PetImageEdit, self).dispatch(*args, **kwargs)
+
+    def get_object(self, *args, **kwargs):
+        obj = super(PetImageEdit, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            pet = Pet.objects.get(id=obj.pet.id)
+            for u in pet.users.all():
+                if u.id == self.request.user.id and u.user_type == 'S':
+                    return obj
+            raise Http404
+        else:
+            raise Http404
+
+    def get_success_url(self, *args, **kwargs):
+        obj = Picture.objects.get(id=self.kwargs['pk'])
+        if obj.photo.name is not None and obj.photo.name is not "":
+            return reverse('pet:viewpic', args=(obj.id,))
+        else:
+            return reverse('pet:pet_profile', args=(obj.pet.id,))
+
+#http://garmoncheg.blogspot.com/2011/06/django-rotate-image-with-pil-usage.html
+#Rotations
+def rotate_left(request, pk):
+    try:
+        obj = Picture.objects.get(id=pk)
+        pic = Image.open(obj.photo.file.name)
+        pic_rotate = pic.rotate(90, expand=True)
+        pic_rotate.save(obj.photo.file.name, overwrite=True)
+        obj.photo = obj.photo.file.name
+        obj.save()
+        pic.close()
+        pic_rotate.close()
+
+        #added because page refresh was happening too quickly to see change
+        time.sleep(1)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    except IOError:
+        HttpResponse("cannot edit ", obj.photo.file.name)
+
+
+def rotate_right(request, pk):
+    try:
+        obj = Picture.objects.get(id=pk)
+        pic = Image.open(obj.photo.file.name)
+        pic_rotate = pic.rotate(-90, expand=True)
+        pic_rotate.save(obj.photo.file.name, overwrite=True)
+        obj.photo = obj.photo.file.name
+        obj.save()
+        pic.close()
+        pic_rotate.close()
+
+        #added because page refresh was happening too quickly to see change
+        time.sleep(1)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    except IOError:
+        HttpResponse("cannot edit ", obj.photo.file.name)
+
+class PetImageDelete(generic.DeleteView):
+    model = Picture
+    success_url = reverse_lazy('pet:index')
+
+    def get_object(self, *args, **kwargs):
+        obj = super(PetImageDelete, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            pet = Pet.objects.get(id=obj.pet.id)
+            for u in pet.users.all():
+                if u.id == self.request.user.id and u.user_type == 'S':
+                    return obj
+            raise Http404
+        else:
+            raise Http404
 
 #############################################################################
 # Create Pet Functions:
@@ -281,3 +378,16 @@ def removePetFavorite(request, pk):
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 raise Http404
+
+#############################################################################
+# Helpers
+#############################################################################
+def isShelterOwner(request, petId):
+    if request.user.is_authenticated:
+        if request.user.user_type == 'S':
+            pet = Pet.objects.get(id=petId)
+            if pet is not None:
+                for u in pet.users.all():
+                    if u.id == request.user.id:
+                        return True
+    return False

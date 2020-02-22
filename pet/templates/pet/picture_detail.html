@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include "../components/style.html" %}
+    <title>{{ pet.name }}</title>
+  </head>
+<body>
+	{% include "../components/nav-bar.html" %}
+  <div class="container p-5">
+      <div class="d-flex justify-content-center">
+          <h4 class="card-title">{{ picture.description }}</h4>
+      </div>
+    <div class="d-flex justify-content-center">
+        <img src="{{ picture.photo.url }}" class="img-fluid" style="max-width:400px;max-height:400px"/>
+    </div>
+  </div>
+
+    <div class="d-flex justify-content-center">
+        <a class="btn btn-light" href="{% url 'pet:rotate_left' picture.id %}" role="button">Rotate Left</a>
+        <a class="btn btn-dark" href="{% url 'pet:rotate_right' picture.id %}" role="button">Rotate Right</a>
+        <a class="btn btn-primary" href="{% url 'pet:pet_profile' picture.pet.id %}" role="button">Continue</a>
+    </div>
+<br><br>
+   {% include "../components/footer.html" %}
+</body>
+</html>

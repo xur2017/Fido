@@ -6,6 +6,16 @@
 			<div class="card-body text-center">
 				<h4 class="card-title">{{ obj.description }}</h4>
 				<img src="{{ obj.photo.url }}" style="max-width:300px;max-height:400px" />
+
+				{% if request.user.is_authenticated %}
+					{% for u in obj.pet.users.all  %}
+						{% if u.id == request.user.id and u.user_type == 'S' %}
+							<a class="btn btn-light" href="{% url 'pet:editpic' obj.id %}" role="button">Edit Description</a>
+							<a class="btn btn-danger" href="{% url 'pet:deletepic' obj.id %}" role="button">Delete</a>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+
 			</div>
 		</div>
 	</div>
