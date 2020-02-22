@@ -10,7 +10,7 @@
 			<div class="card-body text-center">
 				{% if obj.picture_set.all %}
 					{% for petpic in obj.picture_set.all|slice:":1" %}
-						{% if petpic.photo.url %}
+						{% if petpic.photo %}
 						<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 						{% else %}
 						<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:225px;max-height:225px">
