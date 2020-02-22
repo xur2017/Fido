@@ -144,6 +144,12 @@ class UserEdit(generic.UpdateView):
     fields = [ 'first_name', 'last_name', 'email', 'phone_number',
                       'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
     template_name= 'user/user_update_form.html'
+    widgets = {
+        'password': forms.PasswordInput(),
+        'email': forms.EmailInput(),
+        'profilePic' : forms.ImageField()
+    }
+
 
     def get_object(self, *args, **kwargs):
         obj = super(UserEdit, self).get_object(*args, **kwargs)
