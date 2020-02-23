@@ -7,6 +7,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required #1
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 #############################################################################
 # Create User Functions:
@@ -159,6 +160,26 @@ class UserEdit(generic.UpdateView):
             raise Http404
         else:
             raise Http404
+
+#############################################################################
+# Delete User Functions:
+# Allows user to delete profile if authenticated and is user
+#############################################################################
+class UserDelete(generic.DeleteView):
+    model = CustomUser
+    success_url = reverse_lazy('pet:index')
+    template_name = 'user/customuser_confirm_delete.html'
+
+    def get_object(self, *args, **kwargs):
+        obj = super(UserDelete, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            if obj.id == self.request.user.id:
+                #remove any associated pets
+                petsList = Pet.objects.filter(users=obj.id)
+                for pet in petsList:
+                    pet.delete()
+                return obj
+        raise Http404
 
 #############################################################################
 # Landing Page Function:
