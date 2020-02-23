@@ -175,9 +175,10 @@ class UserDelete(generic.DeleteView):
         if self.request.user.is_authenticated:
             if obj.id == self.request.user.id:
                 #remove any associated pets
-                petsList = Pet.objects.filter(users=obj.id)
-                for pet in petsList:
-                    pet.delete()
+                if obj.user_type == 'S':
+                    petsList = Pet.objects.filter(users=obj.id)
+                    for pet in petsList:
+                        pet.delete()
                 return obj
         raise Http404
 
