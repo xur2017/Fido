@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from localflavor.us.models import USStateField
@@ -44,12 +44,30 @@ class Picture(models.Model):
 
     description = models.CharField(max_length=200, blank=True)
     photo = models.ImageField(upload_to='photos/', blank=True)
+    profile = models.BooleanField('Profile image',blank=False,default=True)
 
     def __str__(self):
         return self.description
 
     def get_absolute_url(self):
         return "/pet_profile/%i/" % self.pet.id
+
+    # https://stackoverflow.com/questions/2367747/django-get-foreign-key-objects-in-single-query
+    def save(self, *args, **kwargs):
+        if not self.profile:
+            return super(Picture, self).save(*args, **kwargs)
+        with transaction.atomic():
+            Picture.objects.filter(profile=True, pet = self.pet).update(profile=False)
+            return super(Picture, self).save(*args, **kwargs)
+
+    # https://stackoverflow.com/questions/1455126/unique-booleanfield-value-in-django
+    #def save(self, *args, **kwargs):
+    #    if not self.profile:
+    #        return super(Picture, self).save(*args, **kwargs)
+    #    with transaction.atomic():
+    #        Picture.objects.filter(
+    #            profile=True).update(profile=False)
+    #        return super(Picture, self).save(*args, **kwargs)
 
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
@@ -128,7 +146,7 @@ class Pet(models.Model):
     pet_type = models.CharField(max_length=2, choices=PET_TYPE_CHOICES, default=DOG)
     sex = models.CharField(max_length=2, choices=SEX_CHOICES, default=MALE)
     users = models.ManyToManyField(CustomUser)
-
+    
     #Required name and age
     name = models.CharField(max_length=40)
     age = models.FloatField(null=True, blank=True)

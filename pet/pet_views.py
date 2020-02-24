@@ -149,7 +149,7 @@ class PetImageView(generic.DetailView):
 #CreateView for Pet Images
 class PetImageCreate(CreateView):
     model = Picture
-    fields = ['description', 'photo']
+    fields = ['description', 'photo','profile']
 
     def get_initial(self, queryset=None, *args, **kwargs):
         petId = self.kwargs.get('pk')
