@@ -9,15 +9,13 @@
 			<!--img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;"-->
 			<div class="card-body text-center">
 				{% if obj.picture_set.all %}
-					{% for petpic in obj.picture_set.all|slice:":1" %}
-						{% if petpic.photo.url %}
+					{% for petpic in obj.picture_set.all %}
+						{% if petpic.profile %}
 						<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
-						{% else %}
-						<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 						{% endif %}
 					{% endfor %}
 				{% else %}
-					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:225px;max-height:225px">
+					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:200px;max-height:200px">
 				{% endif %}
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
