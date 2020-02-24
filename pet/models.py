@@ -50,7 +50,7 @@ class Picture(models.Model):
         return self.description
 
     def get_absolute_url(self):
-        return "/pet_profile/%i/" % self.pet.id
+        return "/pic/%i" % self.id
 
     # https://stackoverflow.com/questions/2367747/django-get-foreign-key-objects-in-single-query
     def save(self, *args, **kwargs):

@@ -7,6 +7,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.decorators import login_required #1
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 
 #############################################################################
 # Create User Functions:
@@ -134,29 +135,6 @@ class UserPetView(generic.DetailView):
         userId = self.kwargs.get('pk')
         context['pets'] = Pet.objects.filter(users=userId)
         return context
-#############################################################################
-# Edit User Functions:
-# Allows user to update profile if authenticated and is user
-#############################################################################
-# class UserEdit(generic.UpdateView):
-#     model = CustomUser
-#     fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password',  'phone_number',
-#                   'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
-#     template_name= 'user/user_update_form.html'
-#     widgets = {
-#         'password': forms.PasswordInput(),
-#         'email': forms.EmailInput(),
-#         'profilePic': forms.FileInput()
-#     }
-#
-#     def get_object(self, *args, **kwargs):
-#         obj = super(UserEdit, self).get_object(*args, **kwargs)
-#         if self.request.user.is_authenticated:
-#             if obj.id == self.request.user.id:
-#                 return obj
-#             raise Http404
-#         else:
-#             return redirect('%s?next=%s' % (settings.LOGIN_URL, self.request.path))
 
 #############################################################################
 # Edit User Functions:
@@ -167,6 +145,12 @@ class UserEdit(generic.UpdateView):
     fields = [ 'first_name', 'last_name', 'email', 'phone_number',
                       'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
     template_name= 'user/user_update_form.html'
+    widgets = {
+        'password': forms.PasswordInput(),
+        'email': forms.EmailInput(),
+        'profilePic' : forms.ImageField()
+    }
+
 
     def get_object(self, *args, **kwargs):
         obj = super(UserEdit, self).get_object(*args, **kwargs)
@@ -176,6 +160,27 @@ class UserEdit(generic.UpdateView):
             raise Http404
         else:
             raise Http404
+
+#############################################################################
+# Delete User Functions:
+# Allows user to delete profile if authenticated and is user
+#############################################################################
+class UserDelete(generic.DeleteView):
+    model = CustomUser
+    success_url = reverse_lazy('pet:index')
+    template_name = 'user/customuser_confirm_delete.html'
+
+    def get_object(self, *args, **kwargs):
+        obj = super(UserDelete, self).get_object(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            if obj.id == self.request.user.id:
+                #remove any associated pets
+                if obj.user_type == 'S':
+                    petsList = Pet.objects.filter(users=obj.id)
+                    for pet in petsList:
+                        pet.delete()
+                return obj
+        raise Http404
 
 #############################################################################
 # Landing Page Function:

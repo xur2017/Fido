@@ -18,13 +18,21 @@
         {% if request.user in pet.users.all and request.user.user_type == 'S' %}
           <a class="btn btn-outline-primary" href="{% url 'pet:editpet' pet.id %}" role="button">Edit</a>
           <a class="btn btn-outline-primary" href="{% url 'pet:petpic' pet.id %}" role="button">Add Photo</a>
+          {% if picture is not None %}
+            {% for obj in picture|slice:":1" %}
+              {% if obj.photo %}
+                <a class="btn btn-outline-primary" href="{% url 'pet:editpic' obj.id %}" role="button">Edit Profile Picture</a>
+              {% else %}
+                <a class="btn btn-outline-primary" href="{% url 'pet:editpic' obj.id %}" role="button">Add Profile Picture</a>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
           <a class="btn btn-outline-danger" href="{% url 'pet:deletepet' pet.id %}" role="button">Remove</a>
         {% endif %}
       {% endif %}
     {% endif %}
     </div>
     <div class="d-flex justify-content-center"> 
-
 
     <div id="pet-slide" class="carousel carousel-fade" data-ride="carousel">
       <!-- The slideshow -->
