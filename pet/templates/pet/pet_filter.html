@@ -13,15 +13,21 @@
           <h5> Pet Search: </h5>
           {% load crispy_forms_tags %}
           <form method="get">
-            {{ filter.form.name__icontains | as_crispy_field }}
+            {{ filter.form.name | as_crispy_field }}
             {{ filter.form.pet_type | as_crispy_field }}
             <div class="form-row">
-            <div class="form-group col-md-6 mb-0">{{ filter.form.age__gte | as_crispy_field }}</div>
-            <div class="form-group col-md-6 mb-0">{{ filter.form.age__lte | as_crispy_field }}</div>
+            <div class="form-group col-md-6 mb-0">{{ filter.form.age | as_crispy_field }}</div>
+            <div class="form-group col-md-6 mb-0">{{ filter.form.age2 | as_crispy_field }}</div>
             </div>
             {{ filter.form.breed | as_crispy_field }}
             {{ filter.form.sex | as_crispy_field }}
-            {{ filter.form.updated_at__gte | as_crispy_field }}
+            <div class="form-row">
+            <div class="form-group col-md-6 mb-0">{{ filter.form.updated_at | as_crispy_field }}</div>
+            <div class="form-group col-md-6 mb-0">{{ filter.form.updated_at2 | as_crispy_field }}</div>
+            </div>
+            {{ filter.form.users_name | as_crispy_field }}
+            {{ filter.form.users_city | as_crispy_field }}
+            {{ filter.form.users_state | as_crispy_field }}
             <button type="submit" class="btn btn-primary">Search</button>
           </form>
       </div>
@@ -29,6 +35,12 @@
     <hr style="width:50%">
     <div class="d-flex justify-content-center">
       <h3>Results</h3>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      {% if filter.qs.count == 0 %}
+        <h5>No Results Found</h5>
+      {% endif %}
     </div>
   </div>
 
@@ -43,5 +55,8 @@
     var element1 = document.querySelector("label[for=id_updated_at__gte]");
     element1.innerHTML = "Updated date (format: 2/2/2020) is greater than or equal to";
   </script>
+
+    {%include "../components/footer.html"%}
+
   </body>
 </html>
