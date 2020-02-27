@@ -11,7 +11,9 @@
 				{% if obj.picture_set.all %}
 					{% for petpic in obj.picture_set.all %}
 						{% if petpic.profile %}
-						<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
+							{% if petpic.photo %}
+								<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
+							{% endif %}
 						{% endif %}
 					{% endfor %}
 				{% else %}
