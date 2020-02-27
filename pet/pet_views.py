@@ -37,7 +37,7 @@ def emailView(request):
             pet_id = form.cleaned_data['pet_id']
             message = form.cleaned_data['message']
             pet1 = Pet.objects.get(pk=pet_id)
-            users1 = pet1.users.all()
+            users1 = pet1.users.filter(user_type__exact='P')
             to_emails = list()
             for x in users1:
                 to_emails.append(x.email)
