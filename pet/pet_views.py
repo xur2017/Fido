@@ -19,7 +19,7 @@ import time
 from .models import Pet, Picture
 from .filters import PetFilter
 from . import feeds
-from .forms import EmailContactForm
+from .forms import SendEmailForm
 
 # Create your views here.
 def index(request):
@@ -27,23 +27,28 @@ def index(request):
 
 def emailView(request):
     if request.method == 'GET':
-        form = EmailContactForm()
+        msg = ''
+        email_list = ''
+        form = SendEmailForm()
     else:
-        form = EmailContactForm(request.POST)
+        form = SendEmailForm(request.POST)
         if form.is_valid():
             subject = form.cleaned_data['subject']
-            to_email = form.cleaned_data['to_email']
+            pet_id = form.cleaned_data['pet_id']
             message = form.cleaned_data['message']
+            pet1 = Pet.objects.get(pk=pet_id)
+            users1 = pet1.users.all()
+            to_emails = list()
+            for x in users1:
+                to_emails.append(x.email)
+            msg = 'email is already sent to'
+            email_list = ','.join(to_emails)
             try:
-                send_mail(subject, message, 'admin@example.com', [to_email])
+                send_mail(subject, message, 'admin@example.com', [to_emails])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
-            #return redirect( 'http://' + request.get_host() + '/success' )
-            return redirect( reverse_lazy('pet:success') )
-    return render(request, "pet/email.html", {'form': form})
-
-def successView(request):
-    return HttpResponse('Success.')
+    context = {'form': form, 'msg': msg, 'email_list': email_list}
+    return render(request, "pet/email.html", context)
 
 class FavListView(ListView):
     model = Pet

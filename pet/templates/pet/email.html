@@ -1,9 +1,11 @@
 
-<h1>Email Contact</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="form-actions">
-      <button type="submit">Send</button>
-    </div>
+<h1>Send Email</h1>
+<p>{{ msg }}</p>
+<p>{{ email_list }}</p>
+<form action="" method="post">
+  {% csrf_token %}
+  <table>
+  {{ form.as_table }}
+  </table>
+  <input type="submit" value="Submit">
 </form>

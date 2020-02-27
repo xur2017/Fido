@@ -15,6 +15,7 @@ class LatestPetUpdates(Feed):
         s1 = " # "
         s1 = s1.join(list1) 
         return s1
+        
     def item_description(self, item):
         s1 = item.description
         return s1
