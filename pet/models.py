@@ -69,6 +69,18 @@ class Picture(models.Model):
     #            profile=True).update(profile=False)
     #        return super(Picture, self).save(*args, **kwargs)
 
+class Status(models.Model):
+    pet = models.ForeignKey('Pet', on_delete=models.CASCADE, default=None)
+
+    status = models.CharField(max_length=200, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.status
+
+    def get_absolute_url(self):
+        return "/pet_profile/%i" % self.pet.id
+
 class Pet(models.Model):
     #https://docs.djangoproject.com/en/3.0/ref/models/fields/#afield-choices
     # Choices for Availability
@@ -152,7 +164,7 @@ class Pet(models.Model):
     age = models.FloatField(null=True, blank=True)
 
     #Optional status and description
-    status = models.CharField(max_length=40, blank=True)
+    #status = models.CharField(max_length=40, blank=True) -- Moved to Many to One
     description = models.CharField(max_length=200, blank=True)
 
     #Automatically track date

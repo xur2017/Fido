@@ -16,7 +16,7 @@ from django.contrib import messages
 from PIL import Image
 import time
 
-from .models import Pet, Picture
+from .models import Pet, Picture, Status
 from .filters import PetFilter
 from . import feeds
 from .forms import SendEmailForm
@@ -116,6 +116,7 @@ class PetDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         petId = self.kwargs.get('pk')
         context['picture'] = Picture.objects.filter(pet_id=petId)
+        context['status'] = Status.objects.filter(pet_id=petId).order_by('-created_at')
         return context
 
 #This is for pet parents, not owner of pet profile
@@ -128,6 +129,7 @@ class PetProfileView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         petId = self.kwargs.get('pk')
         context['picture'] = Picture.objects.filter(pet_id=petId)
+        context['status'] = Status.objects.filter(pet_id=petId).order_by('-created_at')
         return context
 
 #############################################################################
@@ -282,7 +284,7 @@ class PetImageDelete(generic.DeleteView):
 class PetCreate(CreateView):
     model = Pet
     fields = ['name', 'age', 'sex', 'pet_type', 'breed',
-              'availability', 'disposition', 'status', 'description']
+              'availability', 'disposition', 'description']
 
     def get_form(self, form_class=None):
         form = super(PetCreate, self).get_form(form_class)
@@ -310,6 +312,29 @@ def createPet(request):
         else:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
+class PetStatusCreate(CreateView):
+    model = Status
+    fields = ['status']
+
+    def get_initial(self, queryset=None, *args, **kwargs):
+        petId = self.kwargs.get('pk')
+        obj = Pet.objects.get(id=petId)
+        if obj is not None:
+            if self.request.user.is_authenticated:
+                for u in obj.users.all():
+                    if u.id == self.request.user.id and u.user_type == 'S':
+                        initial = super(PetStatusCreate, self).get_initial(**kwargs)
+                        return initial
+                raise Http404
+            else:
+                raise Http404
+
+    def form_valid(self, form):
+        petId = self.kwargs.get('pk')
+        pet = Pet(id=petId)
+        form.instance.pet = pet
+        return super(PetStatusCreate, self).form_valid(form)
+
 #############################################################################
 # Edit Pet Functions:
 # If user is authenticated and pet belongs to user, allows update to existing
@@ -319,7 +344,7 @@ def createPet(request):
 class PetEdit(generic.UpdateView):
     model = Pet
     fields = ['name', 'age', 'sex', 'pet_type', 'breed',
-              'availability', 'disposition', 'status', 'description']
+              'availability', 'disposition', 'description']
     template_name_suffix = '_update_form'
 
     #https://stackoverflow.com/questions/44935522/how-to-use-login-reuqired-on-update-create-delete-views-in-django

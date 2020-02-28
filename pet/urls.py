@@ -13,6 +13,7 @@ urlpatterns = [
     path('pet/<int:pk>/edit', pet_views.PetEdit.as_view(), name='editpet'),
     path('pet/<int:pk>/pic', pet_views.PetImageCreate.as_view(), name='petpic'),
     path('pet/<int:pk>/delete', pet_views.PetDelete.as_view(), name='deletepet'),
+    path('pet/<int:pk>/status', pet_views.PetStatusCreate.as_view(), name='createstatus'),
     path('pic/<int:pk>/edit', pet_views.PetImageEdit.as_view(), name='editpic'),
     path('pic/<int:pk>', pet_views.PetPicView.as_view(), name='viewpic'),
     path('pic/<int:pk>/delete', pet_views.PetImageDelete.as_view(), name='deletepic'),

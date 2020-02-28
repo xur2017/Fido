@@ -17,6 +17,7 @@
       {% if pet.users.all %}
         {% if request.user in pet.users.all and request.user.user_type == 'S' %}
           <a class="btn btn-outline-primary" href="{% url 'pet:editpet' pet.id %}" role="button">Edit</a>
+          <a class="btn btn-outline-primary" href="{% url 'pet:createstatus' pet.id %}" role="button">Update Status</a>
           <a class="btn btn-outline-primary" href="{% url 'pet:petpic' pet.id %}" role="button">Add Photo</a>
           {% if picture is not None %}
             {% for obj in picture|slice:":1" %}
@@ -86,7 +87,6 @@
         <li class="list-group-item"> Breed: {{ pet.get_breed_display }} </li>
         <li class="list-group-item"> Availability: {{ pet.get_availability_display }} </li>
         <li class="list-group-item"> Disposition: {{ pet.get_disposition_display }} </li>
-        <li class="list-group-item"> Status: {{ pet.status }} </li>
         <li class="list-group-item"> Description: {{ pet.description }} </li>
         <li class="list-group-item"> Shelter: 
                                           {% for u in pet.users.all %} {% if u.user_type == 'S' %}
@@ -97,6 +97,14 @@
         </li>
       </ul>
     </div>
+
+      Status History:
+      {% if status %}
+        {% for obj in status %}
+          <li class="list-group-item"> {{ obj.status }} </li>
+        {% endfor %}
+      {% endif %}
+
     {% if picture %}
     <hr style="width:50%">
     <div class="d-flex justify-content-center">
