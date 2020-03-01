@@ -15,6 +15,7 @@ import feedparser
 from django.contrib import messages
 from PIL import Image
 import time
+from django.template import loader
 
 from .models import Pet, Picture, Status
 from .filters import PetFilter
@@ -23,7 +24,13 @@ from .forms import SendEmailForm
 
 # Create your views here.
 def index(request):
-    return render(request, 'pet/index.html')
+    #https://docs.djangoproject.com/en/3.0/intro/tutorial03/
+    status_list = Status.objects.order_by('-created_at')[:5]
+    template = loader.get_template('pet/index.html')
+    context = {
+        'status_list': status_list,
+    }
+    return HttpResponse(template.render(context, request))
 
 def emailView(request):
     if request.method == 'GET':
@@ -312,6 +319,9 @@ def createPet(request):
         else:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 
+#############################################################################
+# Pet Status Functions:
+#############################################################################
 class PetStatusCreate(CreateView):
     model = Status
     fields = ['status']
@@ -334,6 +344,16 @@ class PetStatusCreate(CreateView):
         pet = Pet(id=petId)
         form.instance.pet = pet
         return super(PetStatusCreate, self).form_valid(form)
+
+class PetStatusListView(ListView):
+    model = Status
+    ordering = ['-created_at']
+    paginate_by = 5  # if pagination is desired
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 #############################################################################
 # Edit Pet Functions:

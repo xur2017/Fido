@@ -57,6 +57,7 @@
 				<div class="dropdown-menu dropdown-menu-right">
 					<a class="dropdown-item" href="{% url 'pet:userdetail' user.id %}">Account</a>
 					<a class="dropdown-item" href="{% url 'pet:edituser' user.id %}">Settings</a>
+					<a class="dropdown-item" href="{% url 'pet:userpetsview' user.id%}">View Your Favorite Pets</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
 				</div>

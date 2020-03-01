@@ -69,16 +69,6 @@
 
 		{% if request.user.is_authenticated %}
 		<h1> Welcome back!</h1>
-		<div class="row ">
-			<ul class="list-group mx-auto">
-			    <a href="{% url 'pet:createpet' %}" class="list-group-item">Click here to add a pet profile!</a>
-			    <a href="{% url 'pet:createuser' %}" class="list-group-item">Click here to add a user!</a>
-			    <a href="{% url 'login' %}" class="list-group-item">Click here to login!</a>
-			    <a href="{% url 'logout' %}" class="list-group-item">Click here to logout!</a>
-			    <a href="{% url 'pet:profile' %}" class="list-group-item">Click here to go to your profile!</a>
-				<a href="{% url 'pet:petall' %}" class="list-group-item">Click here to browse all pets!</a>
-			</ul>
-		</div>
 		{% else %}
 		<h1> Join us!</h1>
 		<div class="row">
@@ -97,6 +87,12 @@
 			</div>
 		</div>
 		{% endif %}
+	</div>
+
+	{% include "../components/indexstatus.html" %}
+	<br>
+	<div class="container text-center" align="center" style="width:50%">
+	<a class="btn btn-primary btn-sm" href="{% url 'pet:status_list' %}" role="button">View More Recent Updates</a>
 	</div>
 
 	<a href="#hidden" class="btn btn-primary" data-toggle="collapse">.</a>

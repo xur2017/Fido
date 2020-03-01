@@ -1,0 +1,19 @@
+<!--------------------------------------------------------------------->
+{% load static %}
+
+<!--div class="container-fluid p-5" align="center">-->
+	<div class="container text-center" align="center" style="width:50%">
+	<h3>Recent Updates</h3>
+
+        <ul class="list-group">
+            {% for obj in status_list %}
+                <li class="list-group-item">
+                {% include "../components/status_rows.html"%}
+                </li>
+            {% endfor %}
+        </ul>
+
+    </div>
+<!--</div>-->
+
+<!--------------------------------------------------------------------->

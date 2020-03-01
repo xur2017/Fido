@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pet List</title>
+    	{% include "../components/style.html" %}
+</head>
+<body>
+	{% include "../components/nav-bar.html" %}
+
+
+    <div class="container text-center" align="center" style="width:50%">
+
+        <ul class="list-group">
+            {% for obj in object_list %}
+                <li class="list-group-item">
+                {% include "../components/status_rows.html"%}
+                </li>
+            {% endfor %}
+        </ul>
+
+
+    <!-- https://docs.djangoproject.com/en/3.0/topics/pagination/ -->
+    <div class="pagination" align="center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    </div>
+
+</body>
+<br><br>
+
+   {%include "../components/footer.html"%}
+
+</html>
