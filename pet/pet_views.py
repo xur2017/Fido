@@ -58,6 +58,24 @@ def emailView(request):
     context = {'form': form, 'msg': msg, 'email_list': email_list}
     return render(request, "pet/email.html", context)
 
+def sendEmail(petId):
+    subject = 'Test Subject'
+    #pet_id = form.cleaned_data['pet_id']
+    message = 'Test Message'
+    pet1 = Pet.objects.get(pk=petId)
+    users1 = pet1.users.filter(user_type__exact='P')
+    to_emails = list()
+    for x in users1:
+        if x.notify != 'N':
+            to_emails.append(x.email)
+    msg = 'email is already sent to'
+    email_list = ','.join(to_emails)
+    email_from = settings.EMAIL_HOST_USER
+    try:
+        send_mail(subject, message, email_from, [email_list])
+    except BadHeaderError:
+        return HttpResponse('Invalid header found.')
+
 class FavListView(ListView):
     model = Pet
     ordering = ['-updated_at']
@@ -345,6 +363,13 @@ class PetStatusCreate(CreateView):
         pet = Pet(id=petId)
         form.instance.pet = pet
         return super(PetStatusCreate, self).form_valid(form)
+
+    def get_success_url(self):
+        #Send email to pet parent's that have favorited
+        petId = self.kwargs.get('pk')
+        sendEmail(petId)
+        return "/pet_profile/%i" % petId
+
 
 class PetStatusListView(ListView):
     model = Status
