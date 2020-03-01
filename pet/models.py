@@ -19,6 +19,13 @@ class CustomUser(AbstractUser):
         ('P', 'Pet Parent')
     ]
 
+    FREQ_TYPE_CHOICES = [
+        ('N', 'Never'),
+        ('I', 'Immediately'),
+        ('D', 'Daily'),
+        ('W', 'Weekly'), 
+    ]
+
     user_type = models.CharField(max_length=2, choices=USER_TYPE_CHOICES, default='S')
     phone_number = models.CharField(max_length=40, blank=True)
     street_number = models.CharField(max_length=40, blank=True)
@@ -32,6 +39,7 @@ class CustomUser(AbstractUser):
     #Automatically track date
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
+    notify = models.CharField(max_length=2, choices=FREQ_TYPE_CHOICES, default='N')
 
     def __str__(self):
         return self.username
@@ -44,7 +52,7 @@ class Picture(models.Model):
 
     description = models.CharField(max_length=200, blank=True)
     photo = models.ImageField(upload_to='photos/', blank=True)
-    profile = models.BooleanField('Profile image',blank=False,default=True)
+    profile = models.BooleanField('Profile image',blank=False,default=False)
 
     def __str__(self):
         return self.description
@@ -55,19 +63,13 @@ class Picture(models.Model):
     # https://stackoverflow.com/questions/2367747/django-get-foreign-key-objects-in-single-query
     def save(self, *args, **kwargs):
         if not self.profile:
+            #if no pictures are profile
+            #   set static image as profile image
             return super(Picture, self).save(*args, **kwargs)
         with transaction.atomic():
             Picture.objects.filter(profile=True, pet = self.pet).update(profile=False)
+            #remove static placeholder images as profile image
             return super(Picture, self).save(*args, **kwargs)
-
-    # https://stackoverflow.com/questions/1455126/unique-booleanfield-value-in-django
-    #def save(self, *args, **kwargs):
-    #    if not self.profile:
-    #        return super(Picture, self).save(*args, **kwargs)
-    #    with transaction.atomic():
-    #        Picture.objects.filter(
-    #            profile=True).update(profile=False)
-    #        return super(Picture, self).save(*args, **kwargs)
 
 class Status(models.Model):
     pet = models.ForeignKey('Pet', on_delete=models.CASCADE, default=None)
