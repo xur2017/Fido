@@ -69,10 +69,9 @@ def sendEmail(petId):
         if x.notify != 'N':
             to_emails.append(x.email)
     msg = 'email is already sent to'
-    email_list = ','.join(to_emails)
     email_from = settings.EMAIL_HOST_USER
     try:
-        send_mail(subject, message, email_from, [email_list])
+        send_mail(subject, message, email_from, to_emails)
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
 
