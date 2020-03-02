@@ -38,7 +38,9 @@
 
     <div id="pet-slide" class="carousel carousel-fade" data-ride="carousel">
       <!-- The slideshow -->
-      <div class="carousel-inner" style="max-height:500px;max-width:500px;">
+      <div class="carousel-inner" style="height:400px;">
+
+        {%if pet.getprofile%}
         {% for petpic in picture %}
           {%if petpic.profile %}
             <div class="carousel-item active">
@@ -46,10 +48,23 @@
             <div class="carousel-item">
           {%endif%}
           {% if petpic.photo %}
-            <img src="{{ petpic.photo.url }}" style="height:400px">
+            <img src="{{ petpic.photo.url }}" style="max-height:400px;max-width:400px;">
               {% endif %}
             </div>
         {% endfor %}
+        {%else%}
+          {% for petpic in picture %}
+            {%if forloop.first %}
+              <div class="carousel-item active">
+            {% else %}
+              <div class="carousel-item">
+            {%endif%}
+            {% if petpic.photo %}
+              <img src="{{ petpic.photo.url }}" style="max-height:400px;max-width:400px;">
+                {% endif %}
+              </div>
+          {% endfor %}
+        {%endif%}
       </div>
       <!-- Left and right controls -->
       <a class="carousel-control-prev" href="#pet-slide" role="button" data-slide="prev">

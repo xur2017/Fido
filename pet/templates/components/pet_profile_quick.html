@@ -8,7 +8,7 @@
 			<!--profile/main pic of pet-->
 			<!--img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;"-->
 			<div class="card-body text-center">
-				{% if obj.picture_set.all %}
+				{% if obj.getprofile %}
 					{% for petpic in obj.picture_set.all %}
 						{% if petpic.profile %}
 							{% if petpic.photo %}
@@ -16,9 +16,11 @@
 							{% endif %}
 						{% endif %}
 					{% endfor %}
-				{% else %}
-					<img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:200px;max-height:200px">
-				{% endif %}
+				{%else%}
+					<img src="{% static 'img/paw-icon.png'%}" style="max-width:200px;max-height:200px">
+				{%endif%}
+
+
 				<h4 class="card-title"><a href="{% url 'pet:pet_profile' obj.id %}">{{ obj.name }}</a></h4>
 				<p>{{ obj.get_pet_type_display }}</p>
 				<p>{{ obj.get_availability_display }}</p>
