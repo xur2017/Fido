@@ -21,6 +21,7 @@ from .models import Pet, Picture, Status
 from .filters import PetFilter
 from . import feeds
 from .forms import SendEmailForm
+from django.conf import settings
 
 # Create your views here.
 def index(request):

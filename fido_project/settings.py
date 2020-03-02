@@ -228,6 +228,10 @@ except ImportError:
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'teamfido.tester@gmail.com'
+EMAIL_HOST_PASSWORD = 'mcbgewkhctbzjrrz'
+
 EMAIL_USE_TLS = True
-EMAIL_PORT = 587
 EMAIL_USE_SSL = False
+EMAIL_PORT = 587
