@@ -180,5 +180,5 @@ class Pet(models.Model):
         return "/pet_profile/%i/" % self.id
 
     def getprofile(self):
-        return self.picture_set.all().filter(profile=True).values()
+        return self.picture_set.all().filter(profile=True).first()
 

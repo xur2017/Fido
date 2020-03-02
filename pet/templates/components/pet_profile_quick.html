@@ -9,13 +9,7 @@
 			<!--img class="card-img-top" src="{% static 'img/dog-icon.png' %}" alt="card-image"style="max-width:200px; max-height:200px;"-->
 			<div class="card-body text-center">
 				{% if obj.getprofile %}
-					{% for petpic in obj.picture_set.all %}
-						{% if petpic.profile %}
-							{% if petpic.photo %}
-								<img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
-							{% endif %}
-						{% endif %}
-					{% endfor %}
+					<img src="{{ obj.getprofile.photo.url }}" class="img-thumbnail" style="max-width:225px;max-height:225px">
 				{%else%}
 					<img src="{% static 'img/paw-icon.png'%}" style="max-width:200px;max-height:200px">
 				{%endif%}
