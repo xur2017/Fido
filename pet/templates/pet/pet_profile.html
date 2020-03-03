@@ -41,17 +41,17 @@
       <div class="carousel-inner" style="height:400px;">
 
         {%if pet.getprofile%}
-        {% for petpic in picture %}
-          {%if petpic.profile %}
-            <div class="carousel-item active">
-          {% else %}
-            <div class="carousel-item">
-          {%endif%}
-          {% if petpic.photo %}
-            <img src="{{ petpic.photo.url }}" style="max-height:400px;max-width:400px;">
-              {% endif %}
-            </div>
-        {% endfor %}
+          {% for petpic in picture %}
+            {%if petpic.profile %}
+              <div class="carousel-item active">
+            {% else %}
+              <div class="carousel-item">
+            {%endif%}
+            {% if petpic.photo %}
+              <img src="{{ petpic.photo.url }}" style="max-height:400px;max-width:400px;">
+                {% endif %}
+              </div>
+          {% endfor %}
         {%else%}
           {% for petpic in picture %}
             {%if forloop.first %}
