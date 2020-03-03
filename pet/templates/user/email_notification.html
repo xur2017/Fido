@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Email Notifications</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  </head>
+<body style="background-color: #f4f4f4; padding: 0 !important;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr>
+        <td bgcolor="#82f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <tr>
+              <td bgcolor="#ffffff" align="center" valign="top" style="padding: 40px 20px 20px 20px; border-radius: 4px 4px 0px 0px; color: #111111;font-size: 48px; letter-spacing: 4px;">
+                <h1 style="font-size: 48px; margin: 2;">Notifications!</h1>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+            <tr>
+              <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 10px 30px; color: #666666; font-size: 18px;">
+                <p style="margin: 0;">
+                Finding your Fido can be difficult. Here, let's give you a helping paw.
+                </p>
+                <hr>
+              </td>
+            </tr>
+            <tr>
+              <td bgcolor="#ffffff" align="left">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 10px 30px;">
+                      <table border="0" cellspacing="0" cellpadding="0">
+                        {%for obj in pet_list%}
+                        <tr style="border-radius: 2px; border: 1px solid #ffffff">
+                          <td colspan="1" align="center" bgcolor="#dddddd">
+                            <img src="{{obj.profile.url}}" style = "max-width:200px; max-height:200px"/>
+                            <a href="#" target="_blank" style="font-size: 15px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd; display: inline-block;">
+                            {{obj.name}}
+                            </a>
+                          </td>
+                          <td colspan="2" align="center" style="width:100%" bgcolor="#dddddd">
+                            <p style="font-size: 20px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd;">
+                              {{obj.status}}
+                            </p>
+                          </td>
+                        </tr>
+                        {%endfor%}
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+                <td bgcolor="#ffffff" align="left" style="padding: 30px 30px 30px 30px; color: #666666; font-size: 18px;">
+                  <hr>
+                    <p style="margin: 0;">With <i>Finding Fido</i>, your next family member is almost home.</p>
+                </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+      <tr>
+          <td bgcolor="#f4f4f4" align="center">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                  <tr>
+                      <td bgcolor="#444444" align="left" style="padding: 20px 20px 30px 20px; border-radius: 4px 4px 4px 4px; color: #eeeeee; font-size: 15px;">
+                          <p style="margin: 0;">Happy Findings,<br>FF Team</p>
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+      <tr>
+          <td bgcolor="#f4f4f4" align="center" style="padding: 0px 10px 0px 10px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
+                  <tr>
+                      <td bgcolor="#f4f4f4" align="center" style="padding: 0px 30px 10px 30px; color: #666666; font-size: 14px;"> <br>
+                          <p style="margin: 0;">If these settings aren't perfect, please change them by <a href="#" target="_blank" style="font-weight:600;">logging in</a>.</p>
+                      </td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+    </table>
+</body>
+
+</html>
