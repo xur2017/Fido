@@ -16,6 +16,8 @@ from django.contrib import messages
 from PIL import Image
 import time
 from django.template import loader
+from django.template.loader import render_to_string
+
 
 from .models import Pet, Picture, Status
 from .filters import PetFilter
@@ -59,10 +61,12 @@ def emailView(request):
     context = {'form': form, 'msg': msg, 'email_list': email_list}
     return render(request, "pet/email.html", context)
 
+#https://stackoverflow.com/questions/2809547/creating-email-templates-with-django
 def sendEmail(petId):
     subject = 'Test Subject'
     #pet_id = form.cleaned_data['pet_id']
     message = 'Test Message'
+    msg_html = render_to_string('user/email_notification.html')
     pet1 = Pet.objects.get(pk=petId)
     users1 = pet1.users.filter(user_type__exact='P')
     to_emails = list()
@@ -72,7 +76,7 @@ def sendEmail(petId):
     msg = 'email is already sent to'
     email_from = settings.EMAIL_HOST_USER
     try:
-        send_mail(subject, message, email_from, to_emails)
+        send_mail(subject, message, email_from, to_emails, html_message=msg_html)
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
 
