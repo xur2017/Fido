@@ -43,14 +43,19 @@
                         {%for obj in pet_list%}
                         <tr style="border-radius: 2px; border: 1px solid #ffffff">
                           <td colspan="1" align="center" bgcolor="#dddddd">
-                            <img src="{{obj.profile.url}}" style = "max-width:200px; max-height:200px"/>
-                            <a href="#" target="_blank" style="font-size: 15px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd; display: inline-block;">
+                              {% for p in obj.picture_set.all|slice:":1" %}
+                                    <img src="{{p.photo.url}}" style = "max-width:200px; max-height:200px"/>
+                                    <a href="#" target="_blank" style="font-size: 15px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd; display: inline-block;">
+                              {% endfor %}
+
                             {{obj.name}}
                             </a>
                           </td>
                           <td colspan="2" align="center" style="width:100%" bgcolor="#dddddd">
                             <p style="font-size: 20px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd;">
-                              {{obj.status}}
+                              {% for s in obj.status_set.all|slice:":1" %}
+                                {{ s.status }}
+                                {% endfor %}
                             </p>
                           </td>
                         </tr>

@@ -66,8 +66,9 @@ def sendEmail(petId):
     subject = 'Test Subject'
     #pet_id = form.cleaned_data['pet_id']
     message = 'Test Message'
-    msg_html = render_to_string('user/email_notification.html')
     pet1 = Pet.objects.get(pk=petId)
+    pet_list = Pet.objects.filter(pk=petId)
+    msg_html = render_to_string('user/email_notification.html', {'pet_list': pet_list})
     users1 = pet1.users.filter(user_type__exact='P')
     to_emails = list()
     for x in users1:
