@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Add Pet Picture</title>
+    <title>Add Pet Status</title>
     	{% include "../components/style.html" %}
   </head>
   <body>
@@ -15,7 +15,7 @@
         <form  method="post" enctype='multipart/form-data'>
           {% csrf_token %}
           {{ form.status | as_crispy_field }}
-          <button  type="submit"  class="btn btn-primary">Submit</button>
+          <button  type="submit"  class="btn btn-primary" name="update_stat">Submit</button>
         </form>
       </div>
     </div>
