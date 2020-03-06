@@ -40,21 +40,21 @@
                   <tr>
                     <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 10px 30px;">
                       <table border="0" cellspacing="0" cellpadding="0">
-                        {%for obj in pet_list%}
+                        <!--{#for obj in pet_list#}-->
                         <tr style="border-radius: 2px; border: 1px solid #ffffff">
                           <td colspan="1" align="center" bgcolor="#dddddd">
-                            <img src="{{obj.profile.url}}" style = "max-width:200px; max-height:200px"/>
+                            <img src="{{MEDIA_URL}}{{MEDIA_ROOT}}{{profile}}" style = "max-width:200px; max-height:200px"/>
                             <a href="#" target="_blank" style="font-size: 15px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd; display: inline-block;">
-                            {{obj.name}}
+                            {{name}}
                             </a>
                           </td>
                           <td colspan="2" align="center" style="width:100%" bgcolor="#dddddd">
                             <p style="font-size: 20px; color: #ffffff; color: #ffffff; padding: 15px 25px; border-radius: 2px; border: 1px solid #dddddd;">
-                              {{obj.status}}
+                              {{ status }}
                             </p>
                           </td>
                         </tr>
-                        {%endfor%}
+                        <!--{#endfor#}-->
                       </table>
                     </td>
                   </tr>

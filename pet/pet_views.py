@@ -16,6 +16,8 @@ from django.contrib import messages
 from PIL import Image
 import time
 from django.template import loader
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from .models import Pet, Picture, Status
 from .filters import PetFilter
@@ -59,11 +61,27 @@ def emailView(request):
     context = {'form': form, 'msg': msg, 'email_list': email_list}
     return render(request, "pet/email.html", context)
 
-def sendEmail(petId):
-    subject = 'Test Subject'
+#https://stackoverflow.com/questions/2809547/creating-email-templates-with-django
+def sendEmail(statusId):
+    subject = '''Team Fido: You've Got a Notification'''
     #pet_id = form.cleaned_data['pet_id']
     message = 'Test Message'
-    pet1 = Pet.objects.get(pk=petId)
+    pet1 = getattr(Status.objects.get(id=statusId), 'pet')
+    prof = pet1.getprofile().photo
+    stat_msg = getattr(Status.objects.get(id=statusId), 'status')
+    #print(pet1)
+    #pet1 = Pet.objects.get(pk=petId)
+    #print(pet1)
+    #pet_list = Pet.objects.filter(pk=petId)
+    context ={
+        'name': pet1.name,
+        'profile': prof,
+        'status': stat_msg,
+        'MEDIA_URL':settings.MEDIA_URL,
+        'MEDIA_ROOT':settings.MEDIA_ROOT,  
+    }
+    msg_html = render_to_string('user/email_notification.html', context)
+    message =  strip_tags(msg_html)
     users1 = pet1.users.filter(user_type__exact='P')
     to_emails = list()
     for x in users1:
@@ -72,7 +90,7 @@ def sendEmail(petId):
     msg = 'email is already sent to'
     email_from = settings.EMAIL_HOST_USER
     try:
-        send_mail(subject, message, email_from, to_emails)
+        send_mail(subject, message, email_from, to_emails, html_message=msg_html)
     except BadHeaderError:
         return HttpResponse('Invalid header found.')
 
@@ -367,7 +385,8 @@ class PetStatusCreate(CreateView):
     def get_success_url(self):
         #Send email to pet parent's that have favorited
         petId = self.kwargs.get('pk')
-        sendEmail(petId)
+        statusId = self.object.id
+        sendEmail(statusId)
         return "/pet_profile/%i" % petId
 
 

@@ -203,6 +203,7 @@ else:
 
     MEDIA_ROOT = 'media'
     MEDIA_URL = '/media/'
+    #MEDIA_URL_TEST = 'localhost:8000'
 
     UPLOAD_ROOT = 'uploads/'
 
