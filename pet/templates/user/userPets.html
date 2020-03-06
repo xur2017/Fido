@@ -8,7 +8,7 @@
   {% include "../components/nav-bar.html"%}
   <div class="container p-5">
     <div class="d-flex justify-content-center">
-      {% if request.user.user_type == 'S' %}
+      {% if user.user_type == 'S' %}
         <h2>List of Pets In Shelter</h2>
       {% else %}
         <h2>List of Pets Favorited</h2>

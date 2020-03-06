@@ -7,12 +7,15 @@
   {% include "../components/nav-bar.html" %}
   <div class="container p-5">
     <div class="d-flex justify-content-center">
+      <p>
       PET PARENT
-      <br><br>
+      <br>
       You are logged in as {{ user.username }}.
-      <br><br>
+      <br>
       <a href="{% url 'logout' %}">Logout</a>
-      <br><a href="{% url 'pet:index' %}">Home</a>
+      <br>
+      <a href="{% url 'pet:index' %}">Home</a>
+      </p>
     </div>
   </div>
 

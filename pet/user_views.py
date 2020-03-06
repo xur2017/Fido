@@ -46,7 +46,7 @@ def createUser(request):
                 return render(request, 'user/user_create_success.html', {'username': user.username })
             else:
                 return render(request, 'user/user_form.html', {'form': form})
-
+ 
 #############################################################################
 # View User Functions:
 # View all details for a user
@@ -75,18 +75,6 @@ class UserDetailView(generic.DetailView):
         context['pets'] = Pet.objects.filter(users=userId)
         return context
 
-def profile(request):
-    #sends list of favorite pets AND/OR shelter's pets
-    userId = request.user.id
-    context = { 'request': request }
-    context['pets'] = Pet.objects.filter(users=userId)
-    if request.user.user_type == 'S':
-        return render(request, 'user/profileShelter.html', context)
-    elif request.user.user_type == 'P':
-        return render(request, 'user/profileParent.html', context)
-    else:
-        return HttpResponseRedirect(reverse('login'))
-
 #general Public view
 class UserProfileView(generic.DetailView):
     context_object_name = 'user'
@@ -100,6 +88,7 @@ class UserProfileView(generic.DetailView):
         return context
 
 class UserPetView(generic.DetailView):
+    context_object_name = 'user'
     model = CustomUser
     template_name = 'user/userPets.html'
 
@@ -166,3 +155,15 @@ class UserDelete(generic.DeleteView):
 @login_required
 def complete(request):
     return render(request, 'registration/complete.html')
+
+def profile(request):
+    if request.user.is_anonymous:
+        return HttpResponseRedirect(reverse('login'))
+    #sends list of favorite pets AND/OR shelter's pets
+    userId = request.user.id
+    context = { 'request': request }
+    context['pets'] = Pet.objects.filter(users=userId)
+    if request.user.user_type == 'S':
+        return render(request, 'user/profileShelter.html', context)
+    else:
+        return render(request, 'user/profileParent.html', context)
