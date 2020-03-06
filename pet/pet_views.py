@@ -49,7 +49,7 @@ def emailView(request):
             to_emails = list()
             for x in users1:
                 to_emails.append(x.email)
-            msg = 'email is already sent to'
+            msg = 'message is already sent to'
             email_list = ','.join(to_emails)
             from_email = settings.EMAIL_HOST_USER
             try:
