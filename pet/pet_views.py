@@ -11,7 +11,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.core.mail import send_mail, BadHeaderError
-import feedparser
+
 from django.contrib import messages
 from PIL import Image
 import time

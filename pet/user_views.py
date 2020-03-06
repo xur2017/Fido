@@ -2,56 +2,29 @@ from django.shortcuts import render, reverse, redirect
 from django.http import HttpResponseRedirect, HttpResponse, Http404
 from .models import CustomUser, Pet
 from django.views import generic
-from django.forms import ModelForm, forms
+
 from django import forms
 from django.conf import settings
-from django.contrib.auth.decorators import login_required #1
+from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
+from .forms import CreateUserForm
 
 #############################################################################
 # Create User Functions:
-# createUser calls UserCreate to use ModelForm
+# createUser calls CreateUserForm to use ModelForm
 # if ModelForm is valid, will create a new user
 #############################################################################
 #https://riptutorial.com/django/example/3998/form-and-object-creation
 #https://docs.djangoproject.com/en/3.0/ref/class-based-views/generic-editing/
-class UserCreate(ModelForm):
-    password_confirm = forms.CharField(widget=forms.PasswordInput)
-    class Meta:
-        template_name = 'user/user_form.html'
-        model = CustomUser
-        fields = ['user_type', 'first_name', 'last_name', 'email', 'username', 'password', 'password_confirm', 'phone_number',
-                  'street_number', 'street_name', 'city', 'state', 'zip']
-        widgets = {
-            'password': forms.PasswordInput(),
-            'email': forms.EmailInput(),
-            #'profilePic' : forms.FileInput()
-        }
-
-    def __init__(self, *args, **kwargs):
-        super(UserCreate, self).__init__(*args, **kwargs)
-        #self.fields['profilePic'].label = "Profile Picture"
-
-    def clean(self):
-        super(UserCreate, self).clean()
-        error_message = ''
-        field = ''
-        if self.cleaned_data.get('password') != self.cleaned_data.get('password_confirm'):
-            error_message = 'Passwords do not match.'
-            field = 'password'
-            self.add_error(field, error_message)
-            raise forms.ValidationError(error_message)
-        return self.cleaned_data
-
 def createUser(request):
     test = request
     #if content_type = json, API request
     if request.content_type == 'application/json':
-        return UserCreate.as_view()(request)
+        return CreateUserForm.as_view()(request)
     else:
         #https://stackoverflow.com/questions/7576725/problem-using-djangos-user-authentication-model-uncomprehensible-error
-        form=UserCreate(request.POST)
+        form=CreateUserForm(request.POST)
         if request.method == 'GET':
             return  render(request, 'user/user_form.html', { 'form': form })
         elif request.method == 'POST':
