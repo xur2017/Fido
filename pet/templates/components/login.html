@@ -1,13 +1,6 @@
 <div class="container-fluid p-5" align="center">
-	<div>
-		<h3>Log in</h3>
-		<a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
-		<a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
-		<a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
-	</div>
-	<hr style="width:50%;">
+	<h3>Already have an account?</h3>
 	<div style="max-width:80%;">
-		<h3>or</h3>
 		<form action="{% url 'login' %}" method="POST" class="needs-validation" novalidate>
 			{% csrf_token %}
 			<div class="form-group">
@@ -20,9 +13,14 @@
 			</div>
 			<button type="submit" class="btn btn-primary btn-lg">Submit</button>
 		</form>
-
 	</div>
-
+	<hr style="width:50%;">
+	<h3>or, log/sign in using:</h3>
+	<div class="btn-group-vertical">
+		<a href = "{% url 'social:begin' 'google-oauth2' %}" type="button" class="btn btn-warning btn-lg">Google (OSU)</a>
+		<a href = "{% url 'social:begin' 'facebook' %}" type="button" class="btn btn-primary btn-lg">Facebook</a>
+		<a href = "{% url 'social:begin' 'github' %}" type="button" class="btn btn-dark btn-lg">GitHub</a>
+	</div>
 	<script>
 		//https://www.w3schools.com/bootstrap4/bootstrap_forms.asp
 		// Disable form submissions if there are invalid fields 
