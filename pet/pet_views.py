@@ -3,8 +3,6 @@ from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views import generic
-from rest_framework import generics
-from django.conf import settings
 from django import forms
 from django.utils import timezone
 from django.urls import reverse, reverse_lazy
@@ -18,6 +16,9 @@ import time
 from django.template import loader
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.core.files.storage import default_storage
+from io import BytesIO
+from django.core.files.base import ContentFile
 
 from .models import Pet, Picture, Status
 from .filters import PetFilter
@@ -267,41 +268,75 @@ class PetImageEdit(generic.UpdateView):
             return reverse('pet:pet_profile', args=(obj.pet.id,))
 
 #http://garmoncheg.blogspot.com/2011/06/django-rotate-image-with-pil-usage.html
+#https://stackoverflow.com/questions/32945292/how-to-save-pillow-image-object-to-django-imagefield
+#https://stackoverflow.com/questions/54856479/how-to-save-a-thumbnail-to-default-storageaws-s3-after-converting-it-in-django
 #Rotations
 def rotate_left(request, pk):
     try:
-        obj = Picture.objects.get(id=pk)
-        pic = Image.open(obj.photo.file.name)
-        pic_rotate = pic.rotate(90, expand=True)
-        pic_rotate.save(obj.photo.file.name, overwrite=True)
-        obj.photo = obj.photo.file.name
-        obj.save()
-        pic.close()
-        pic_rotate.close()
+        if settings.MEDIA_URL == 'https://storage.googleapis.com/{}/'.format(settings.GS_BUCKET_NAME):
+            obj = Picture.objects.get(id=pk)
+            pic = Image.open(default_storage.open(obj.photo.file.name))
+            pic_rotate = pic.rotate(90, expand=True)
+            tempFile = BytesIO()
+            pic_rotate.save(tempFile, format='JPEG', overwrite=True)
+            tempPic = ContentFile(tempFile.getvalue())
+            default_storage.save(obj.photo.file.name, tempPic)
+            obj.save()
+            pic.close()
+            pic_rotate.close()
 
-        #added because page refresh was happening too quickly to see change
-        time.sleep(1)
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            #added because page refresh was happening too quickly to see change
+            time.sleep(1)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            obj = Picture.objects.get(id=pk)
+            pic = Image.open(obj.photo.file.name)
+            pic_rotate = pic.rotate(90, expand=True)
+            pic_rotate.save(obj.photo.file.name, overwrite=True)
+            obj.photo = obj.photo.file.name
+            obj.save()
+            pic.close()
+            pic_rotate.close()
+
+            #added because page refresh was happening too quickly to see change
+            time.sleep(1)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     except IOError:
-        HttpResponse("cannot edit ", obj.photo.file.name)
+        raise Http404
 
 
 def rotate_right(request, pk):
     try:
-        obj = Picture.objects.get(id=pk)
-        pic = Image.open(obj.photo.file.name)
-        pic_rotate = pic.rotate(-90, expand=True)
-        pic_rotate.save(obj.photo.file.name, overwrite=True)
-        obj.photo = obj.photo.file.name
-        obj.save()
-        pic.close()
-        pic_rotate.close()
+        if settings.MEDIA_URL == 'https://storage.googleapis.com/{}/'.format(settings.GS_BUCKET_NAME):
+            obj = Picture.objects.get(id=pk)
+            pic = Image.open(default_storage.open(obj.photo.file.name))
+            pic_rotate = pic.rotate(-90, expand=True)
+            tempFile = BytesIO()
+            pic_rotate.save(tempFile, format='JPEG', overwrite=True)
+            tempPic = ContentFile(tempFile.getvalue())
+            default_storage.save(obj.photo.file.name, tempPic)
+            obj.save()
+            pic.close()
+            pic_rotate.close()
 
-        #added because page refresh was happening too quickly to see change
-        time.sleep(1)
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            #added because page refresh was happening too quickly to see change
+            time.sleep(1)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            obj = Picture.objects.get(id=pk)
+            pic = Image.open(obj.photo.file.name)
+            pic_rotate = pic.rotate(-90, expand=True)
+            pic_rotate.save(obj.photo.file.name, overwrite=True)
+            obj.photo = obj.photo.file.name
+            obj.save()
+            pic.close()
+            pic_rotate.close()
+
+            #added because page refresh was happening too quickly to see change
+            time.sleep(1)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     except IOError:
-        HttpResponse("cannot edit ", obj.photo.file.name)
+        raise Http404
 
 class PetImageDelete(generic.DeleteView):
     model = Picture
