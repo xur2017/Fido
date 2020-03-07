@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'crispy_forms',
     'social_django', #1
-    'localflavor'
+    'localflavor',
 ]
 
 MIDDLEWARE = [
@@ -104,8 +104,8 @@ DATABASES = {
 # import pymysql  # noqa: 402
 # pymysql.version_info = (1, 3, 13, "final", 0)
 # pymysql.install_as_MySQLdb()
-#
-# # [START db_setup]
+# #
+# # # [START db_setup]
 # if os.getenv('GAE_APPLICATION', None):
 #     # Running on production App Engine, so connect to Google Cloud SQL using
 #     # the unix socket at /cloudsql/<your-cloudsql-connection string>
@@ -196,6 +196,8 @@ if os.getenv('GAE_APPLICATION', None):
     DOWNLOAD_ROOT = os.path.join(BASE_DIR, "static/media/downloads")
     DOWNLOAD_URL = STATIC_URL + "media/downloads"
 else:
+    GS_BUCKET_NAME = ''
+
     DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
     STATIC_ROOT = 'static'
