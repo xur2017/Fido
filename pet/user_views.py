@@ -105,7 +105,8 @@ class UserPetView(generic.DetailView):
 class UserEdit(generic.UpdateView):
     model = CustomUser
     fields = [ 'first_name', 'last_name', 'email', 'phone_number',
-                      'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic']
+                'street_number', 'street_name', 'city', 'state', 'zip', 'profilePic',
+                'notify']
     template_name= 'user/user_update_form.html'
     widgets = {
         'password': forms.PasswordInput(),
