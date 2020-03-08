@@ -68,7 +68,10 @@ def sendEmail(statusId):
     #pet_id = form.cleaned_data['pet_id']
     message = 'Test Message'
     pet1 = getattr(Status.objects.get(id=statusId), 'pet')
-    prof = pet1.getprofile().photo
+    if pet1.getprofile():
+        prof = pet1.getprofile().photo
+    else:
+        prof = 'img/paw-icon.png'
     stat_msg = getattr(Status.objects.get(id=statusId), 'status')
     #print(pet1)
     #pet1 = Pet.objects.get(pk=petId)
