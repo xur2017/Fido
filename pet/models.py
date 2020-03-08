@@ -22,8 +22,6 @@ class CustomUser(AbstractUser):
     FREQ_TYPE_CHOICES = [
         ('N', 'Never'),
         ('I', 'Immediately'),
-        ('D', 'Daily'),
-        ('W', 'Weekly'), 
     ]
 
     user_type = models.CharField(max_length=2, choices=USER_TYPE_CHOICES, default='P')
