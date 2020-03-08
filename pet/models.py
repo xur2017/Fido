@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
         ('W', 'Weekly'), 
     ]
 
-    user_type = models.CharField(max_length=2, choices=USER_TYPE_CHOICES, default='S')
+    user_type = models.CharField(max_length=2, choices=USER_TYPE_CHOICES, default='P')
     phone_number = models.CharField(max_length=40, blank=True)
     street_number = models.CharField(max_length=40, blank=True)
     street_name = models.CharField(max_length=40, blank=True)

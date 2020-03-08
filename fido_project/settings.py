@@ -75,6 +75,18 @@ TEMPLATES = [
     },
 ]
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',  
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
 #1
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
@@ -224,15 +236,16 @@ try:
 except ImportError:
     pass
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_PORT = 587
+
 #1. https://simpleisbetterthancomplex.com/tutorial/2016/10/24/how-to-add-social-login-to-django.html
 #2. https://scotch.io/tutorials/django-authentication-with-facebook-instagram-and-linkedin
 #3. https://medium.com/trabe/oauth-authentication-in-django-with-social-auth-c67a002479c1
 #4. https://dev.to/codetricity/how-to-set-up-django-with-central-oauth2-login-1co
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.gmail.com'
-
-#EMAIL_USE_TLS = True
-#EMAIL_USE_SSL = False
-#EMAIL_PORT = 587
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
