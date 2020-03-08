@@ -4,24 +4,17 @@
 
      <ul class="list-group list-group-horizontal">
         <li class="list-group-item border-0" align="center">
-
-				{% if obj.pet.picture_set.all %}
-					{% for petpic in obj.pet.picture_set.all|slice:":1" %}
-						{% if petpic.profile %}
-							{% if petpic.photo %}
-								<a href="{% url 'pet:pet_profile' obj.pet.id %}">
-                                   <img src="{{ petpic.photo.url }}" class="img-thumbnail" style="max-width:100px;max-height:100px">
-                                </a>
-							{% endif %}
-						{% endif %}
-					{% endfor %}
-				{% else %}
-                    <a href="{% url 'pet:pet_profile' obj.pet.id %}">
-                        <img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:100px;max-height:100px">
-                    </a>
-				{% endif %}
+        <li>
+            {%if obj.pet.getprofile %}
+                <a href="{% url 'pet:pet_profile' obj.pet.id %}">
+               <img src="{{ obj.pet.getprofile.photo.url }}" class="img-thumbnail" style="max-width:100px;max-height:100px">
+                </a>
+            {%else%}
+                <a href="{% url 'pet:pet_profile' obj.pet.id %}">
+                    <img src="{% static 'img/paw-icon.png'%}" class="img-thumbnail" style="max-width:100px;max-height:100px">
+                </a>
+            {%endif%}
         </li>
-
         <li class="list-group-item border-0">
             <ul class="list-group-flush" style="padding-inline-start:5px">
                 <li class="list-group-item" align="left">
