@@ -69,16 +69,13 @@ def sendEmail(statusId):
     #pet_id = form.cleaned_data['pet_id']
     message = 'Test Message'
     pet1 = getattr(Status.objects.get(id=statusId), 'pet')
-    if pet1.getprofile():
+    if pet1.getprofile() is not None:
         prof = pet1.getprofile().photo
     else:
         prof = 'img/paw-icon.png'
     stat_msg = getattr(Status.objects.get(id=statusId), 'status')
-    #print(pet1)
-    #pet1 = Pet.objects.get(pk=petId)
-    #print(pet1)
-    #pet_list = Pet.objects.filter(pk=petId)
     context ={
+        'id':pet1.id,
         'name': pet1.name,
         'profile': prof,
         'status': stat_msg,
