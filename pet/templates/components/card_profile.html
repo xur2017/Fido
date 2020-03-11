@@ -17,15 +17,18 @@
 			</h4>
 		    <ul class="list-group">
 		      <li class="list-group-item"> Type: {{ user.get_user_type_display }} </li>
+		      {% if request.user.is_authenticated %}
 		      <li class="list-group-item"> Phone: {{ user.phone_number }} </li>
 		      <li class="list-group-item"> Email: {{ user.email }} </li>
 		      <li class="list-group-item"> Address: {{ user.street_number }} {{ user.street_name }} {{ user.city }} {{ user.state }}{{ user.zip }}</li>
+		      {% endif %}
 		    </ul>
 		    {% if request.user.is_authenticated %}
 		    	<div class="card-body text-center">
-				{% if user.user_type == 'S' %}
 				<a href="{% url 'pet:userpetsview' pk=user.id %}"><img src="{% static 'img/fav-button.png'%}" alt="fav" style="max-width:70px;"></a>
+				{% if user.user_type == 'S' %}
 				<a href="#"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
+				{%else%}
 				{%endif%}
 					<a href="{% url 'pet:edituser' pk=user.id %}"> <img src="{% static 'img/setting-button.png' %}" alt="setting" style="max-width:70px"></a> 
 				</div>

@@ -88,21 +88,15 @@
 		</div>
 		{% endif %}
 	</div>
-
+	<hr style="width:30%;">
 	{% include "../components/indexstatus.html" %}
 	<br>
 	<div class="container text-center" align="center" style="width:50%">
 	<a class="btn btn-primary btn-sm" href="{% url 'pet:status_list' %}" role="button">View More Recent Updates</a>
 	</div>
 
-	<a href="#hidden" class="btn btn-primary" data-toggle="collapse">.</a>
+	<a href="#hidden" class="btn btn-outline-primary btn-sm" data-toggle="collapse">.</a>
 		<div id="hidden" class="collapse">
-			<a href="{% url 'pet:createpet' %}" class="list-group-item">Click here to add a pet profile!</a>
-			<a href="{% url 'pet:createuser' %}" class="list-group-item">Click here to add a user!</a>
-			<a href="{% url 'login' %}" class="list-group-item">Click here to login!</a>
-			<a href="{% url 'logout' %}" class="list-group-item">Click here to logout!</a>
-			<a href="{% url 'pet:profile' %}" class="list-group-item">Click here to go to your profile!</a>
-			<a href="{% url 'pet:petall' %}" class="list-group-item">Click here to browse all pets!</a>
       <a href="{% url 'pet:feed' %}" class="list-group-item"><span class="fa fa-rss"></span>Click here to subscribe feed!</a>
 		</div>
 	</div>

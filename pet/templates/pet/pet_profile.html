@@ -120,8 +120,12 @@
       </ul>
     </div>
 
-      {% if status %}
-      History:
+    {% if status %}
+    <hr style="width:50%">
+    <div class="d-flex justify-content-center">
+      <h4>Status History</h4>
+    </div>
+    <div class="d-flex justify-content-center">
       <ul class="list-group">
         {% for obj in status %}
           <li class="list-group-item">
@@ -137,7 +141,8 @@
           </li>
         {% endfor %}
        </ul>
-      {% endif %}
+    </div>
+    {% endif %}
 
     {% if picture %}
     <hr style="width:50%">
