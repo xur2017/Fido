@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import CustomUser
+from .models import CustomUser, Pet
 
 class CreateUserForm(forms.ModelForm):
     password_confirm = forms.CharField(widget=forms.PasswordInput)
@@ -34,3 +34,8 @@ class SendEmailForm(forms.Form):
     pet_id = forms.IntegerField(required=True, help_text="Message is sent to the users who favorited the pet.")
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
+
+    def __init__(self,*args,**kwargs):
+        self.user_id = kwargs.pop('user_id')
+        super(SendEmailForm, self).__init__(*args,**kwargs)
+        self.fields['pet_id'].widget = forms.Select( choices = Pet.objects.filter(users__pk = self.user_id).values_list('id', 'name') )

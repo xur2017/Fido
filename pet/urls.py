@@ -39,6 +39,6 @@ urlpatterns = [
     
     path('feed/', feeds.LatestPetUpdates(), name='feed'),
     path('pet/favs', pet_views.FavListView.as_view(), name='petfavs'),
-    path('email/', pet_views.emailView, name='email'),
+    path('user/<int:pk>/email', pet_views.emailView, name='email'),
 ]
 

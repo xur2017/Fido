@@ -36,13 +36,13 @@ def index(request):
     }
     return HttpResponse(template.render(context, request))
 
-def emailView(request):
+def emailView(request, pk):
     if request.method == 'GET':
         msg = ''
         email_list = ''
-        form = SendEmailForm()
+        form = SendEmailForm(user_id = pk)
     else:
-        form = SendEmailForm(request.POST)
+        form = SendEmailForm(request.POST, user_id = pk)
         if form.is_valid():
             subject = form.cleaned_data['subject']
             pet_id = form.cleaned_data['pet_id']
@@ -51,7 +51,8 @@ def emailView(request):
             users1 = pet1.users.filter(user_type__exact='P')
             to_emails = list()
             for x in users1:
-                to_emails.append(x.email)
+                if x.notify != 'N':
+                    to_emails.append(x.email)
             msg = 'message is already sent to'
             email_list = ','.join(to_emails)
             from_email = settings.EMAIL_HOST_USER
