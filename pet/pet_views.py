@@ -37,6 +37,10 @@ def index(request):
     return HttpResponse(template.render(context, request))
 
 def emailView(request, pk):
+
+    if request.user.is_anonymous or request.user.id != pk:
+        return HttpResponse('You do not have this permission.')
+
     if request.method == 'GET':
         msg = ''
         email_list = ''

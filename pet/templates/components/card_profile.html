@@ -27,8 +27,7 @@
 		    	<div class="card-body text-center">
 				<a href="{% url 'pet:userpetsview' pk=user.id %}"><img src="{% static 'img/fav-button.png'%}" alt="fav" style="max-width:70px;"></a>
 				{% if user.user_type == 'S' %}
-				<a href="{% url 'pet:emailview' pk=user.id %}"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
-				{%else%}
+				<a href="{% url 'pet:email' pk=user.id %}"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
 				{%endif%}
 					<a href="{% url 'pet:edituser' pk=user.id %}"> <img src="{% static 'img/setting-button.png' %}" alt="setting" style="max-width:70px"></a> 
 				</div>
