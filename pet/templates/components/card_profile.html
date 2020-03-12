@@ -29,7 +29,7 @@
 				{% if user.user_type == 'S' %}
 				<a href="{% url 'pet:email' pk=user.id %}"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
 				{%endif%}
-					<a href="{% url 'pet:edituser' pk=user.id %}"> <img src="{% static 'img/setting-button.png' %}" alt="setting" style="max-width:70px"></a> 
+				<a href="{% url 'pet:edituser' pk=user.id %}"> <img src="{% static 'img/setting-button.png' %}" alt="setting" style="max-width:70px"></a> 
 				</div>
 				<!--a href="#card_fold" class="btn btn-primary" data-toggle="collapse">More Actions</a>
 				<div id="card_fold" class="collapse"> 
