@@ -119,41 +119,13 @@
         </li>
       </ul>
     </div>
-    <!--{# if request.user.is_authenticated and request.user.user_type == 'P' #}
-      <div class="d-flex p-2 justify-content-center">
-      <a href="{% url 'pet:email' pk=pet.id %}"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
-      </div>
-    {#endif#}-->
-    {% if status %}
-    <hr style="width:50%">
-    <div class="d-flex justify-content-center">
-      <h4>Status History</h4>
-    </div>
-    <div class="d-flex justify-content-center">
-      <ul class="list-group">
-        {% for obj in status %}
-          <li class="list-group-item">
-            <ul class="list-group-horizontal">
-              <li class="list-group-item border-top-0 border-left-0 border-right-0">
-                {{ obj.created_at|localtime }}
-              </li>
 
-              <li class="list-group-item border-0">
-                {{ obj.status }}
-              </li>
-            </ul>
-          </li>
-        {% endfor %}
-       </ul>
-    </div>
-    {% endif %}
-
-    {% if picture %}
-    <hr style="width:50%">
-    <div class="d-flex justify-content-center">
-        <h4>All Photos</h4>
-    </div>
-    {% endif %}
+  {% if picture %}
+  <hr style="width:50%">
+  <div class="d-flex justify-content-center">
+      <h4>All Photos</h4>
+  </div>
+  {% endif %}
   </div>
   <div class="row mx-auto">
     {% for obj in picture %}
@@ -162,6 +134,35 @@
       {% endif %}
     {% endfor %}
   </div>
+    <!--{# if request.user.is_authenticated and request.user.user_type == 'P' #}
+      <div class="d-flex p-2 justify-content-center">
+      <a href="{% url 'pet:email' pk=pet.id %}"><img src="{% static 'img/chat-button.png' %}" alt="chat" style="max-width:70px"></a>
+      </div>
+    {#endif#}-->
+  {% if status %}
+  <hr style="width:50%">
+  <div class="d-flex justify-content-center">
+    <h4>Status History</h4>
+  </div>
+  <div class="d-flex justify-content-center">
+    <ul class="list-group">
+      {% for obj in status %}
+        <li class="list-group-item">
+          <ul class="list-group-horizontal">
+            <li class="list-group-item border-top-0 border-left-0 border-right-0">
+              {{ obj.created_at|localtime }}
+            </li>
+
+            <li class="list-group-item border-0">
+              {{ obj.status }}
+            </li>
+          </ul>
+        </li>
+      {% endfor %}
+     </ul>
+  </div>
+  {% endif %}
+    
   {%include "../components/footer.html"%}
 </body>
 </html>
